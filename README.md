@@ -4,12 +4,14 @@
 - parses images from reddit's subreddits
 
 ## Design
+- Cache loaded images to save APIs limits - Cache parser
+
 ### Reddit parser
 - [Reddit's API](https://www.reddit.com/dev/api)
 
 ### Parser
 - [Imgur API](https://api.imgur.com/)
-- ##### Parser API
+- __Parser API__
     - ```
         /**
         * Can parse site
@@ -51,7 +53,7 @@
         [Previous][Image][Next ]
         ```
     - Clicking on overlay will close the preview
-- ##### Slideshow
+- __Slideshow__
     - Keyboard shortucts
         - *Spacebar* - Play/Pause
         - *Left/Right* - navigation
@@ -60,7 +62,7 @@
         - Every action, will display text, letting the user know, what happened; Will hide after 2-3 seconds
     - Automatic fullscreen
     - Black/white background
-- #### Frontpage
+- __Frontpage__
     - Layout
     - ```
         [Search bar] [Search] [Sort] [Start slideshow]
