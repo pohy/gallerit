@@ -50,6 +50,7 @@
     - Layout
         ```
         [Start slideshow][Delay]
+        
         [Previous][Image][Next ]
         ```
     - Clicking on overlay will close the preview
@@ -66,6 +67,7 @@
     - Layout
     - ```
         [Search bar] [Search] [Sort] [Start slideshow]
+
         [                   Images                   ]
         ```
     
