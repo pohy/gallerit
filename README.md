@@ -34,6 +34,7 @@
          function parseImages(url) {...}
         ```
     - Image objects
+    
         ```
         {
             /**
