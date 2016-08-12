@@ -12,7 +12,8 @@
 ### Parser
 - [Imgur API](https://api.imgur.com/)
 - __Parser API__
-    - ```
+    - 
+        ```
         /**
         * Can parse site
         *
@@ -21,7 +22,9 @@
         */
         function matchSite(url) {...}
         ```
-    - ```
+        
+    - 
+        ```
         /**
          * Parses images and returns an array of direct urls of images
          *
