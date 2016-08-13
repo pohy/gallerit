@@ -50,6 +50,8 @@
 ### UI
 - Thumbnails of images are displayed on frontpage
 - Menu stays fixed on top
+- Search bar autocompletes subreddit names
+- Use chips for each subreddit
 - After clicking an image, overlay is dislayed
     - Layout
         ```
