@@ -4,20 +4,23 @@
             <a class="navbar-brand" href="#">gallerit</a>
             <form
                     class="form-inline pull-md-right"
-                    @submit.prevent="submitForm"
+                    @submit.prevent="loadImages"
+                    @change="formChanged"
             >
                 <input
                         autofocus
                         type="text"
                         placeholder="Subreddits: gifs, pics, gonewild"
                         class="form-control"
-                        v-model="subreddits"
+                        name="subreddits"
+                        :value="form.subreddits"
                 />
                 <select
                         class="form-control"
-                        v-model="sorting"
+                        name="sorting"
+                        v-model="form.sorting"
                 >
-                    <option v-for="sort in sortOptions" :value="sort.value">
+                    <option v-for="sort in form.sortOptions" :value="sort.value">
                         {{ sort.title }}
                     </option>
                 </select>
@@ -25,7 +28,8 @@
                     <input
                             class="form-check-input"
                             type="checkbox"
-                            v-model="nsfw"
+                            name="nsfw"
+                            v-model="form.nsfw"
                     >
                     NSFW
                 </label>
@@ -38,47 +42,27 @@
 <style>
 </style>
 <script>
-    import {loadImages} from './actions';
+    import {loadImages, updateForm} from './actions';
 
     export default {
-        data() {
-            return {
-                subreddits: 'pics',
-                sorting: 'hot',
-                nsfw: false,
-                sortOptions: [{
-                    title: 'Hot',
-                    value: 'hot'
-                }, {
-                    title: 'New',
-                    value: 'new'
-                }, {
-                    title: 'Top',
-                    value: 'top'
-                }]
-            };
-        },
         vuex: {
             actions: {
-                loadImages
-            }
-        },
-        watch: {
-            nsfw(value) {
-                this.nsfw = value;
-                this.submitForm();
+                loadImages,
+                updateForm
             },
-            sorting(value) {
-                this.sorting = value;
-                this.submitForm();
+            getters: {
+                form: (state) => state.form
             }
         },
         created() {
-            this.submitForm();
+            this.loadImages();
         },
         methods: {
-            submitForm() {
-                this.loadImages(this.subreddits, this.sorting, this.nsfw)
+            formChanged(event) {
+                this.updateForm(event);
+                if (event.target.name !== 'subreddits') {
+                    this.loadImages();
+                }
             }
         }
     }
