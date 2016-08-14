@@ -1,11 +1,14 @@
 <template>
-    <div class="card-deck-wrapper">
-        <div class="card-deck">
+    <div class="container-fluid">
+        <div class="card-deck images">
             <image-card v-for="image in images" v-bind:image="image"/>
         </div>
     </div>
 </template>
 <style>
+    .images {
+        justify-content: center;
+    }
 </style>
 <script>
     import ImageCard from './ImageCard.vue';

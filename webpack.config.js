@@ -11,6 +11,11 @@ module.exports = {
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
   },
+  vue: {
+    loaders: {
+      'scss': 'vue-style!css!sass'
+    }
+  },
   module: {
     loaders: [
       {
