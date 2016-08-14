@@ -58,16 +58,29 @@ function fetchSubredditPosts(token, subreddit, sorting, nsfw) {
                 reject(err);
             }
             const body = JSON.parse(bodyRaw);
+            const imageRegex = /(png|jpg|jpeg|gif)$/g;
+            const videoRegex = /(webm|mp4)$/g;
             const posts = body.data.children
                 .filter(post => !post.data['is_self'])
                 .filter(post => nsfw ? true : !post.data['nsfw'])
                 .map(post => ({
                     url: post.data.url,
-                    title: post.data.title
+                    title: post.data.title,
+                    type: getType(post.data.url)
                 }))
                 // TODO: Implement WEBM support
-                .filter(post => /(png|jpg|jpeg|gif)/g.test(post.url));
+                .filter(post => ['video', 'image'].indexOf(post.type) > -1);
             resolve(posts);
+
+            function getType(url) {
+                if (videoRegex.test(url)) {
+                    return 'video';
+                }
+                if (imageRegex.test(url)) {
+                    return 'image';
+                }
+                return 'unknown';
+            }
         })
     );
 }

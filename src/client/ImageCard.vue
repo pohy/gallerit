@@ -1,7 +1,10 @@
 <template>
     <div class="card image-card">
         <h4 v-if="image.title">{{ image.title }}</h4>
-        <img v-bind:src="image.url" v-bind:alt="image.title">
+        <img v-if="image.type === 'image'" v-bind:src="image.url" v-bind:alt="image.title">
+        <video v-if="image.type === 'video'" loop="loop" autoplay="autoplay" muted="muted">
+            <source v-bind:src="image.url" type="video/mp4">
+        </video>
     </div>
 </template>
 <style lang="scss">
@@ -11,7 +14,7 @@
         max-height: 240px;
         margin-bottom: 0.625rem;
 
-        img {
+        img, video {
             max-width: 320px;
             max-height: 240px;
         }

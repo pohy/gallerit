@@ -42,6 +42,11 @@
             */
             url: 'https://i.imgur.com/1Cwu579c.jpg',
             /**
+             * Required
+             * Available types: image/video
+            */
+            type: 'video',
+            /**
              * Optional
             */
             title: '[NBD] My new Felt'
