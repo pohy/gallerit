@@ -52,6 +52,7 @@
             title: '[NBD] My new Felt'
         }
         ```
+        
 ### UI
 - Thumbnails of images are displayed on frontpage
 - Menu stays fixed on top
@@ -83,4 +84,4 @@
         ```
     
 ## Libraries used
-- ?[vue.js](https://vuejs.org/)
+- [vue.js](https://vuejs.org/)
