@@ -1,9 +1,6 @@
 const express = require('express');
-const request = require('request');
 const Promise = require('promise');
-const lodash = require('lodash');
 
-const config = require('./config.js');
 const reddit = require('./reddit');
 
 const app = express();
@@ -12,9 +9,6 @@ app.use((req, res, next) => {
     // Enable CORS
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    // Set User-Agent according to reddit's rules
-    req.header('User-Agent', 'web:cz.pohy.gallerit:1.0.0 (by /u/pohy)')
-
     next();
 });
 app.use(express.static(`${__dirname}/public`));
@@ -40,7 +34,8 @@ app.get('/', (req, res, next) => {
                     results.reduce((posts, post) => posts.concat(post), [])
                 );
         })
-        .then(posts => res.json(posts));
+        .then(posts => res.json(posts))
+        .catch(next);
 });
 
 app.listen(3000, () => console.log('API listening on port 3000'));

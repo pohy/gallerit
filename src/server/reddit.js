@@ -1,3 +1,8 @@
+const Promise = require('promise');
+const request = require('request');
+
+const config = require('./config.js');
+
 module.exports = {
     fetchSubredditPosts: fetchSubredditPosts,
     getAccessToken: getAccessToken
