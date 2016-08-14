@@ -24,31 +24,53 @@ app.use((req, res, next) => {
 app.use(express.static(`${__dirname}/public`));
 
 app.get('/', (req, res, next) => {
+    const subreddits = (req.query.subreddits || '').split(/[,; ]/);
+    const sorting = req.query.sorting || 'hot';
+    const nsfw = req.query.sorting || false;
+    if (!subreddits.length) {
+        res.status(400).json({
+            message: '"subreddits" query parameter is mandatory'
+        });
+    }
     getAccessToken()
         .then((token) => {
-            request.get('https://oauth.reddit.com/r/pics/hot.json', {
-                headers: {
-                    'Authorization': `Bearer ${token.token}`,
-                    'User-Agent': 'web:cz.pohy.gallerit:1.0.0 (by /u/pohy)'
-                }
-            }, (err, response, bodyRaw) => {
-                if (err) {
-                    next(err);
-                }
-                const body= JSON.parse(bodyRaw);
-                const posts = lodash(body.data.children)
-                    .filter(post => !post.data['is_self'])
-                    // Filter NSFW posts
-                    .map(post => ({
-                        url: post.data.url,
-                        title: post.data.title
-                    }))
-                    .filter(post => /(png|jpg|jpeg|gif)/g.test(post.url))
-                    .value();
-                res.json(posts);
-            });
-        });
+            const postPromises = subreddits.map((subreddit) =>
+                fetchSubredditPosts(token, subreddit, sorting, nsfw)
+            );
+            return Promise
+                .all(postPromises)
+                .then(results =>
+                    results.reduce((posts, post) => posts.concat(post), [])
+                );
+        })
+        .then(posts => res.json(posts));
 });
+
+function fetchSubredditPosts(token, subreddit, sorting, nsfw) {
+    return new Promise((resolve, reject) =>
+        request.get(`https://oauth.reddit.com/r/${subreddit}/${sorting}.json`, {
+            headers: {
+                'Authorization': `Bearer ${token.token}`,
+                'User-Agent': 'web:cz.pohy.gallerit:1.0.0 (by /u/pohy)'
+            }
+        }, (err, response, bodyRaw) => {
+            if (err) {
+                reject(err);
+            }
+            const body = JSON.parse(bodyRaw);
+            const posts = body.data.children
+                .filter(post => !post.data['is_self'])
+                .filter(post => nsfw ? true : !post.data['nsfw'])
+                .map(post => ({
+                    url: post.data.url,
+                    title: post.data.title
+                }))
+                // TODO: Implement WEBM support
+                .filter(post => /(png|jpg|jpeg|gif)/g.test(post.url));
+            resolve(posts);
+        })
+    );
+}
 
 function getAccessToken() {
     return new Promise((resolve, reject) => {
