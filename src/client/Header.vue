@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="navbar navbar-light bg-faded">
-            <a class="navbar-brand" href="#">galerrit</a>
+            <a class="navbar-brand" href="#">gallerit</a>
             <form class="form-inline pull-md-right">
                 <input type="text" placeholder="Subreddits: gifs, pics, gonewild" class="form-control"/>
                 <button class="btn btn-primary">Search</button>

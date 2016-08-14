@@ -99,3 +99,4 @@ tags
 
 # custom
 .idea/
+src/server/config.js
