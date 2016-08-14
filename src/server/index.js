@@ -1,10 +1,12 @@
 const express = require('express');
-const Promise = require('promise');
+const bodyParser = require('body-parser');
 
 const reddit = require('./reddit');
 const util = require('./util');
 
 const app = express();
+
+app.use(bodyParser.json());
 
 app.use((req, res, next) => {
     // Enable CORS
@@ -23,7 +25,23 @@ app.get('/', (req, res, next) => {
             message: '"subreddits" query parameter is mandatory'
         });
     }
-    reddit.fetchSubredditsImages(subreddits, sorting, nsfw)
+    reddit
+        .fetchSubredditsImages(subreddits, sorting, nsfw)
+        .then(posts => res.json(posts))
+        .catch(next);
+});
+
+app.post('/more', (req, res, next) => {
+    const positions = req.body.positions;
+    const sorting = req.body.sorting || 'hot';
+    const nsfw = req.body.nsfw === 'true';
+    if (!positions) {
+        res.status(400).json({
+            message: '"positions" object is required'
+        });
+    }
+    reddit
+        .fetchMoreImages(positions, sorting, nsfw)
         .then(posts => res.json(posts))
         .catch(next);
 });

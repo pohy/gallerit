@@ -44,8 +44,6 @@
         </div>
     </div>
 </template>
-<style>
-</style>
 <script>
     import {loadImages, updateForm} from './actions';
 

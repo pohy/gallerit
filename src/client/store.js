@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createLogger from 'vuex/logger';
 
 import * as types from './mutationTypes';
 import sortOptions from './sortOptions';
@@ -10,6 +11,7 @@ const state = {
     images: [],
     loading: false,
     fail: false,
+    positions: {},
     form: {
         subreddits: 'pics',
         sorting: sortOptions[0].value,
@@ -24,22 +26,65 @@ const mutations = {
         state.loading = true;
         state.fail = false;
     },
-    [types.LOAD_IMAGES_SUCCESS](state, images) {
-        state.images = images;
-        state.loading = false;
-        state.fail = false;
+    [types.LOAD_IMAGES_SUCCESS](state, subreddits) {
+        handleFetchedSubreddits(state, subreddits)
     },
     [types.LOAD_IMAGES_FAIL](state) {
         state.loading = false;
         state.fail = true;
     },
     [types.UPDATE_FORM](state, name, value) {
-
         state.form[name] = value;
-    }
+    },
+    [types.LOAD_MORE_START](state) {
+        state.loading = true;
+    },
+    [types.LOAD_MORE_SUCCESS](state, subreddits) {
+        handleFetchedSubreddits(state, subreddits, /* append */ true)
+    },
+    [types.LOAD_MORE_FAIL](state) {
+        state.loading = false;
+    },
 };
+
+function handleFetchedSubreddits(state, subreddits, append) {
+    const images = Object
+        .keys(subreddits)
+        .map((subreddit) => subreddits[subreddit].images)
+        .reduce((result, images) => result.concat(images), []);
+    if (append) {
+        state.images = removeDuplicates(state.images.concat(images));
+    } else {
+        state.images = images;
+    }
+    state.positions = Object
+        .keys(subreddits)
+        .reduce((positions, subreddit) => {
+            positions[subreddit] = subreddits[subreddit].position;
+            return positions;
+        }, {});
+    state.loading = false;
+    state.fail = false;
+
+    // TODO: implement tests for this method
+    function removeDuplicates(images) {
+        let foundUrls = [];
+        return images.filter((image) => {
+            if (foundUrls.indexOf(image.url) > -1) {
+                return false;
+            } else {
+                foundUrls.push(image.url);
+                return true;
+            }
+        })
+    }
+}
 
 export default new Vuex.Store({
     state,
-    mutations
+    mutations,
+    strict: true,
+    plugins: [
+        createLogger()
+    ]
 })
