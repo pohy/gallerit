@@ -12,8 +12,8 @@
 ### Parser
 - [Imgur API](https://api.imgur.com/)
 - __Parser API__
-
     - 
+
         ```
         /**
          * Parses images and returns an array of direct urls of images
@@ -24,6 +24,7 @@
          */
          function parseImages(url) {...}
         ```
+        
     - Image objects
     
         ```
