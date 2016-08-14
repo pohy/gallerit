@@ -25,7 +25,8 @@
             },
             getters: {
                 loading: (state) => state.loading,
-                fail: (state) => state.fail
+                fail: (state) => state.fail,
+                hasImages: (state) => !!state.images.length
             }
         },
         created() {
@@ -33,7 +34,10 @@
         },
         methods: {
             startFetching: debounce(function() {
-                if (document.querySelector('.load-more').offsetTop < window.scrollY + window.innerHeight) {
+                if (
+                        document.querySelector('.load-more').offsetTop - 1000 < window.scrollY + window.innerHeight
+                        && !this.loading && this.hasImages && !this.fail
+                ) {
                     this.loadMore();
                 }
             }, 250)
