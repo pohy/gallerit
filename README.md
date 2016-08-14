@@ -17,7 +17,7 @@
         /**
         * Can parse site
         *
-        * @param (string) url - Url of the site (https://imgur.com/a/3vA39c
+        * @param (string) url - Url of the site (https://imgur.com/a/3vA39c)
         * @returns (boolean) Whether it can parse the site
         */
         function matchSite(url) {...}
