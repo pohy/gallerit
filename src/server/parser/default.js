@@ -6,14 +6,12 @@ module.exports = {
     parseImages
 };
 
-const imageRegex = /(png|jpg|jpeg|gif)$/g;
-const videoRegex = /(webm|mp4)$/g;
-
 function parseImages(url, defaultTitle) {
     return new Promise((resolve, reject) => {
         const type = getType(url);
         if (!type) {
             reject(url);
+            return;
         }
         // always a single image, hence the array wrapping
         resolve([
@@ -23,10 +21,10 @@ function parseImages(url, defaultTitle) {
 }
 
 function getType(url) {
-    if (videoRegex.test(url)) {
+    if (/(webm|mp4)$/.test(url)) {
         return 'video';
     }
-    if (imageRegex.test(url)) {
+    if (/(png|jpg|jpeg|gif)$/.test(url)) {
         return 'image';
     }
     return undefined;
