@@ -3,6 +3,11 @@
         <div class="card-deck images">
             <image-card v-for="image in images" v-bind:image="image"/>
         </div>
+        <div v-if="fail" class="jumbotron">
+            <h1>Failed</h1>
+            <p class="lead">Image loading has failed</p>
+        </div>
+        <spinner v-show="loading"/>
     </div>
 </template>
 <style>
@@ -12,22 +17,19 @@
 </style>
 <script>
     import ImageCard from './ImageCard.vue';
+    import Spinner from './Spinner.vue';
 
     export default {
-        created() {
-            const self = this;
-            fetch('http://localhost:3000/')
-                    .then((res) => res.json())
-                    .then((images) => self.images = images)
-                    .catch((err) => console.error(err));
-        },
-        data() {
-            return {
-                images: []
-            };
+        vuex: {
+            getters: {
+                images: (state) => state.images,
+                loading: (state) => state.loading,
+                fail: (state) => state.fail
+            }
         },
         components: {
-            ImageCard
+            ImageCard,
+            Spinner
         }
     };
 </script>

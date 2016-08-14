@@ -12,7 +12,8 @@
     "lodash": "^4.15.0",
     "promise": "^7.1.1",
     "request": "^2.74.0",
-    "vue": "^2.0.0-beta.5"
+    "vue": "^2.0.0-beta.5",
+    "vuex": "^1.0.0-rc.2"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
