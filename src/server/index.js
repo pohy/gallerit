@@ -2,6 +2,7 @@ const express = require('express');
 const Promise = require('promise');
 
 const reddit = require('./reddit');
+const util = require('./util');
 
 const app = express();
 
@@ -16,7 +17,7 @@ app.use(express.static(`${__dirname}/public`));
 app.get('/', (req, res, next) => {
     const subreddits = (req.query.subreddits || '').split(/[,; ]/);
     const sorting = req.query.sorting || 'hot';
-    const nsfw = req.query.sorting || false;
+    const nsfw = req.query.nsfw === 'true';
     if (!subreddits.length) {
         res.status(400).json({
             message: '"subreddits" query parameter is mandatory'
@@ -30,9 +31,7 @@ app.get('/', (req, res, next) => {
             return Promise
                 .all(postPromises)
                 // TODO: handle promise failures
-                .then(results =>
-                    results.reduce((posts, post) => posts.concat(post), [])
-                );
+                .then(util.flatten);
         })
         .then(posts => res.json(posts))
         .catch(next);

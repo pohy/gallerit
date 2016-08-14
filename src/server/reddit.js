@@ -2,10 +2,12 @@ const Promise = require('promise');
 const request = require('request');
 
 const config = require('./config.js');
+const parser = require('./parser');
+const util = require('./util');
 
 module.exports = {
-    fetchSubredditPosts: fetchSubredditPosts,
-    getAccessToken: getAccessToken
+    fetchSubredditPosts,
+    getAccessToken
 };
 
 let accessToken = {
@@ -21,33 +23,21 @@ function fetchSubredditPosts(token, subreddit, sorting, nsfw) {
                 'User-Agent': 'web:cz.pohy.gallerit:1.0.0 (by /u/pohy)'
             }
         }, (err, response, bodyRaw) => {
-            if (err) {
-                reject(err);
+            if (err || response.statusCode > 201) {
+                reject(err ? err : bodyRaw);
             }
             const body = JSON.parse(bodyRaw);
-            const imageRegex = /(png|jpg|jpeg|gif)$/g;
-            const videoRegex = /(webm|mp4)$/g;
-            const posts = body.data.children
-                .filter(post => !post.data['is_self'])
-                .filter(post => nsfw ? true : !post.data['nsfw'])
-                .map(post => ({
-                    url: post.data.url,
-                    title: post.data.title,
-                    type: getType(post.data.url)
-                }))
-                // TODO: Implement WEBM support
-                .filter(post => ['video', 'image'].indexOf(post.type) > -1);
-            resolve(posts);
-
-            function getType(url) {
-                if (videoRegex.test(url)) {
-                    return 'video';
-                }
-                if (imageRegex.test(url)) {
-                    return 'image';
-                }
-                return 'unknown';
-            }
+            const parserPromises = body.data.children
+                .filter((post) => nsfw ? true : !post.data['over_18'])
+                .map((post, i, posts) => parser.parseImages(post.data.url, post.data.title));
+            Promise
+                .all(parserPromises)
+                .then((images) => resolve(
+                    util.flatten(
+                        images.filter(image => !!image)
+                    )
+                ))
+                .catch(reject);
         })
     );
 }

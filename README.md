@@ -12,24 +12,15 @@
 ### Parser
 - [Imgur API](https://api.imgur.com/)
 - __Parser API__
-    - 
-        ```
-        /**
-        * Can parse site
-        *
-        * @param (string) url - Url of the site (https://imgur.com/a/3vA39c)
-        * @returns (boolean) Whether it can parse the site
-        */
-        function matchSite(url) {...}
-        ```
-        
+
     - 
         ```
         /**
          * Parses images and returns an array of direct urls of images
+         * See src/server/parser/default.js for reference implementation
          *
          * @param (string) url - Url of the site
-         * @returns (array) An array of image urls
+         * @returns (Promise) An array of image urls, rejects, if the url cannot be parsed
          */
          function parseImages(url) {...}
         ```
