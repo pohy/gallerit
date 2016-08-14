@@ -35,6 +35,7 @@ const mutations = {
     },
     [types.UPDATE_FORM](state, name, value) {
 
+        state.form[name] = value;
     }
 };
 

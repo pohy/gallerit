@@ -14,13 +14,17 @@
                         class="form-control"
                         name="subreddits"
                         :value="form.subreddits"
+                        @input="formChanged"
                 />
                 <select
                         class="form-control"
                         name="sorting"
-                        v-model="form.sorting"
                 >
-                    <option v-for="sort in form.sortOptions" :value="sort.value">
+                    <option
+                            v-for="sort in form.sortOptions"
+                            :value="sort.value"
+                            v-bind:selected="form.sorting === sort.value"
+                    >
                         {{ sort.title }}
                     </option>
                 </select>
@@ -29,7 +33,8 @@
                             class="form-check-input"
                             type="checkbox"
                             name="nsfw"
-                            v-model="form.nsfw"
+                            v-bind:checked="form.nsfw"
+                            :value="form.nsfw"
                     >
                     NSFW
                 </label>

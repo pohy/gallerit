@@ -15,4 +15,15 @@ export const loadImages = ({dispatch, state: {form: {subreddits, sorting, nsfw}}
 
 export const updateForm = ({dispatch}, {target: {name, value}}) => {
     dispatch(types.UPDATE_FORM, name, value);
+export const updateForm = ({dispatch}, {target: {name, value, type, checked}}) => {
+    dispatch(types.UPDATE_FORM, name, normalizeInput(type, value));
+
+    function normalizeInput(type, value) {
+        switch (type) {
+            case 'checkbox':
+                return checked;
+            default:
+                return value;
+        }
+    }
 };
