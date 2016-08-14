@@ -23,16 +23,7 @@ app.get('/', (req, res, next) => {
             message: '"subreddits" query parameter is mandatory'
         });
     }
-    reddit.getAccessToken()
-        .then((token) => {
-            const postPromises = subreddits.map((subreddit) =>
-                reddit.fetchSubredditPosts(token, subreddit, sorting, nsfw)
-            );
-            return Promise
-                .all(postPromises)
-                // TODO: handle promise failures
-                .then(util.flatten);
-        })
+    reddit.fetchSubredditsImages(subreddits, sorting, nsfw)
         .then(posts => res.json(posts))
         .catch(next);
 });

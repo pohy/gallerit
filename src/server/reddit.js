@@ -6,14 +6,33 @@ const parser = require('./parser');
 const util = require('./util');
 
 module.exports = {
-    fetchSubredditPosts,
-    getAccessToken
+    fetchSubredditsImages,
 };
 
 let accessToken = {
     token: undefined,
     expiration: Date.now()
 };
+
+function fetchSubredditsImages(subreddits, sorting, nsfw) {
+    return new Promise((resolve, reject) => {
+        getAccessToken()
+            .then((token) => {
+                const postPromises = subreddits.map((subreddit) =>
+                    fetchSubredditPosts(token, subreddit, sorting, nsfw)
+                );
+                return Promise
+                    .all(postPromises)
+                    // TODO: handle promise failures
+                    .then((posts) => posts.reduce((result, {images, position, subreddit}) => {
+                        result[subreddit] = {images, position};
+                        return result;
+                    }, {}));
+            })
+            .then(resolve)
+            .catch(reject);
+    })
+}
 
 function fetchSubredditPosts(token, subreddit, sorting, nsfw) {
     return new Promise((resolve, reject) =>
