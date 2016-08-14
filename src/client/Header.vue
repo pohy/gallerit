@@ -16,7 +16,6 @@
                 <select
                         class="form-control"
                         v-model="sorting"
-                        @change="submitForm"
                 >
                     <option v-for="sort in sortOptions" :value="sort.value">
                         {{ sort.title }}
@@ -27,7 +26,6 @@
                             class="form-check-input"
                             type="checkbox"
                             v-model="nsfw"
-                            @change="submitForm"
                     >
                     NSFW
                 </label>
@@ -63,6 +61,16 @@
         vuex: {
             actions: {
                 loadImages
+            }
+        },
+        watch: {
+            nsfw(value) {
+                this.nsfw = value;
+                this.submitForm();
+            },
+            sorting(value) {
+                this.sorting = value;
+                this.submitForm();
             }
         },
         created() {

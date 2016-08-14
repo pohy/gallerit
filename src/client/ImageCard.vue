@@ -12,7 +12,8 @@
         position: relative;
         max-width: 320px;
         max-height: 240px;
-        margin-bottom: 0.625rem;
+        margin: 0.625rem !important;
+        text-align: center;
 
         img, video {
             max-width: 320px;
@@ -27,6 +28,7 @@
             padding: 5px;
             color: white;
             width: 100%;
+            text-align: left;
         }
 
         &:hover h4 {
