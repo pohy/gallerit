@@ -1,5 +1,4 @@
 import * as types from './mutationTypes';
-import defaultForm from './defaultForm';
 
 export default {
     [types.LOAD_IMAGES_START](state) {
@@ -26,11 +25,12 @@ export default {
     [types.LOAD_MORE_FAIL](state) {
         state.loading = false;
     },
-    [types.APP_LOADED](state) {
-        const {route: {query}} = state;
+    ['router/ROUTE_CHANGED'](state, {query: {subreddits, sorting, nsfw}}) {
+        const {form} = state;
         state.form = {
-            ...defaultForm,
-            ...query
+            subreddits: subreddits || form.subreddits,
+            sorting: sorting || form.sorting,
+            nsfw: (nsfw && typeof nsfw === 'boolean' ? nsfw : nsfw === 'true') || form.nsfw
         };
     }
 };

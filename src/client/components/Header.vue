@@ -33,7 +33,6 @@
                             class="form-check-input"
                             type="checkbox"
                             name="nsfw"
-                            v-bind:checked="form.nsfw"
                             :value="form.nsfw"
                     >
                     NSFW
