@@ -1,4 +1,5 @@
 import * as types from './mutationTypes';
+import defaultForm from './defaultForm';
 
 export default {
     [types.LOAD_IMAGES_START](state) {
@@ -25,6 +26,13 @@ export default {
     [types.LOAD_MORE_FAIL](state) {
         state.loading = false;
     },
+    [types.APP_LOADED](state) {
+        const {route: {query}} = state;
+        state.form = {
+            ...defaultForm,
+            ...query
+        };
+    }
 };
 
 function handleFetchedSubreddits(state, subreddits, append) {

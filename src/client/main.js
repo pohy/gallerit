@@ -1,15 +1,19 @@
 import Vue from 'vue'
-import App from './components/App.vue'
-import store from './vuex/store';
+import {sync} from 'vuex-router-sync';
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import App from './App.vue'
+import store from './vuex/store';
+import router from './router';
+
+sync(store, router);
+
 import 'bootstrap/scss/bootstrap-flex.scss';
 import 'bootstrap/dist/js/bootstrap';
 
 Vue.config.debug = true;
 
 new Vue({
-  el: '#app',
+  router,
   store,
-  render: h => h(App)
-});
+...App
+}).$mount('#app');

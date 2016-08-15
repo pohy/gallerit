@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="navbar navbar-light bg-faded">
-            <a class="navbar-brand" href="#">gallerit</a>
+            <router-link class="navbar-brand" :to="'/'">gallerit</router-link>
             <form
                     class="form-inline pull-md-right"
                     @submit.prevent="loadImages"
@@ -21,7 +21,7 @@
                         name="sorting"
                 >
                     <option
-                            v-for="sort in form.sortOptions"
+                            v-for="sort in sortOptions"
                             :value="sort.value"
                             v-bind:selected="form.sorting === sort.value"
                     >
@@ -51,16 +51,22 @@
 </style>
 <script>
     import {mapActions, mapGetters} from 'vuex';
+    import sortOptions from './sortOptions';
 
     export default {
         created() {
             this.loadImages();
         },
+        data: () => ({
+            sortOptions
+        }),
         computed: mapGetters(['form']),
         methods: {
             ...mapActions(['loadImages', 'updateForm']),
             formChanged(event) {
                 this.updateForm(event);
+                const {subreddits, nsfw, sorting} = this.form;
+                this.$router.push({query: {subreddits, nsfw, sorting}});
                 if (event.target.name !== 'subreddits') {
                     this.loadImages();
                 }

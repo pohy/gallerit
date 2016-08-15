@@ -6,7 +6,8 @@ const apiUrl = 'http://localhost:3000';
 export default {
     loadImages,
     loadMore,
-    updateForm
+    updateForm,
+    appLoaded
 };
 
 function loadImages({commit, state: {form: {subreddits, sorting, nsfw}}}) {
@@ -50,4 +51,8 @@ function updateForm({commit}, {target: {name, value, type, checked}}) {
                 return value;
         }
     }
-};
+}
+
+function appLoaded({commit}) {
+    commit(types.APP_LOADED);
+}

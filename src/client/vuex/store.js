@@ -2,7 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import createLogger from 'vuex/logger';
 
-import sortOptions from './sortOptions';
+import sortOptions from './../components/sortOptions';
+import defaultForm from './defaultForm';
 import actions from './actions';
 import mutations from './mutations';
 import getters from './getters';
@@ -14,12 +15,7 @@ const state = {
     loading: false,
     fail: false,
     positions: {},
-    form: {
-        subreddits: 'pics',
-        sorting: sortOptions[0].value,
-        nsfw: false,
-        sortOptions
-    }
+    form: defaultForm
 };
 
 export default new Vuex.Store({
