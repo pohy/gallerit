@@ -50,28 +50,31 @@
     }
 </style>
 <script>
-    import {loadImages, updateForm} from './actions';
+//    import {loadImages, updateForm} from './actions';
+    import {mapActions, mapGetters} from 'vuex';
 
     export default {
-        vuex: {
-            actions: {
-                loadImages,
-                updateForm
-            },
-            getters: {
-                form: (state) => state.form
-            }
-        },
+//        vuex: {
+//            actions: {
+//                loadImages,
+//                updateForm
+//            },
+//            getters: {
+//                form: (state) => state.form
+//            }
+//        },
         created() {
             this.loadImages();
         },
+        computed: mapGetters(['form']),
         methods: {
             formChanged(event) {
                 this.updateForm(event);
                 if (event.target.name !== 'subreddits') {
                     this.loadImages();
                 }
-            }
+            },
+            ...mapActions(['loadImages', 'updateForm'])
         }
     }
 </script>
