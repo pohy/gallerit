@@ -6,20 +6,20 @@ export default {
         state.loading = true;
         state.fail = false;
     },
-    [types.LOAD_IMAGES_SUCCESS](state, subreddits) {
+    [types.LOAD_IMAGES_SUCCESS](state, {subreddits}) {
         handleFetchedSubreddits(state, subreddits)
     },
     [types.LOAD_IMAGES_FAIL](state) {
         state.loading = false;
         state.fail = true;
     },
-    [types.UPDATE_FORM](state, name, value) {
+    [types.UPDATE_FORM](state, {name, value}) {
         state.form[name] = value;
     },
     [types.LOAD_MORE_START](state) {
         state.loading = true;
     },
-    [types.LOAD_MORE_SUCCESS](state, subreddits) {
+    [types.LOAD_MORE_SUCCESS](state, {subreddits}) {
         handleFetchedSubreddits(state, subreddits, /* append */ true)
     },
     [types.LOAD_MORE_FAIL](state) {

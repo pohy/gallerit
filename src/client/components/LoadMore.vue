@@ -15,7 +15,7 @@
     }
 </style>
 <script>
-    import {mapActions, mapGetters} from 'vuex';
+    import {mapActions, mapGetters, mapState} from 'vuex';
     import debounce from 'debounce';
 
     export default {
@@ -23,7 +23,10 @@
             window.addEventListener('scroll', this.startFetching);
         },
         computed: {
-            ...mapGetters(['loading', 'fail', 'hasImages'])
+            ...mapGetters(['loading', 'fail']),
+            ...mapState({
+                hasImages: (state) => !!state.images.length
+            })
         },
         methods: {
             ...mapActions(['loadMore']),

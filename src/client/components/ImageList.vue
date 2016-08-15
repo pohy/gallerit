@@ -29,13 +29,16 @@
     }
 </style>
 <script>
-    import {mapGetters, mapActions} from 'vuex';
+    import {mapGetters, mapActions, mapState} from 'vuex';
     import ImageCard from './ImageCard.vue';
     import Spinner from './Spinner.vue';
 
     export default {
         computed: {
-            ...mapGetters(['images', 'loading', 'fail', 'nsfw']),
+            ...mapGetters(['images', 'loading', 'fail']),
+            ...mapState({
+                nsfw: (state) => state.form.nsfw
+            })
         },
         components: {
             ImageCard,

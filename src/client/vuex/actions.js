@@ -18,7 +18,7 @@ function loadImages({commit, state: {form: {subreddits, sorting, nsfw}}}) {
         + `&nsfw=${nsfw}`
     )
         .then((res) => res.json())
-        .then((subreddits) => commit(types.LOAD_IMAGES_SUCCESS, subreddits))
+        .then((subreddits) => commit(types.LOAD_IMAGES_SUCCESS, {subreddits}))
         .catch(() => commit(types.LOAD_IMAGES_FAIL));
 }
 
@@ -32,12 +32,15 @@ function loadMore({commit, state: {positions, form: {sorting, nsfw}}}) {
         }
     })
         .then((res) => res.json())
-        .then((subreddits) => commit(types.LOAD_MORE_SUCCESS, subreddits))
+        .then((subreddits) => commit(types.LOAD_MORE_SUCCESS, {subreddits}))
         .catch(() => commit(types.LOAD_MORE_FAIL));
 }
 
 function updateForm({commit}, {target: {name, value, type, checked}}) {
-    commit(types.UPDATE_FORM, name, normalizeInput(type, value));
+    commit(types.UPDATE_FORM, {
+        name,
+        value: normalizeInput(type, value)
+    });
 
     function normalizeInput(type, value) {
         switch (type) {

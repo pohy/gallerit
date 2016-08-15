@@ -1,6 +1,6 @@
 <template>
-    <div class="container-fluid header">
-        <div class="navbar navbar-fixed-top navbar-light bg-faded">
+    <div class="container-fluid">
+        <div class="navbar navbar-light bg-faded">
             <a class="navbar-brand" href="#">gallerit</a>
             <form
                     class="form-inline pull-md-right"
