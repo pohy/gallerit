@@ -70,6 +70,11 @@ function fetchSubredditPosts(subreddit, sorting, nsfw, after) {
                         body = JSON.parse(bodyRaw);
                     } catch (err) {
                         reject(err);
+                        return;
+                    }
+                    if (!body.data || !body.data.children) {
+                        reject(body);
+                        return;
                     }
                     const parserPromises = body.data.children
                         .filter((post) => nsfw ? true : !post.data['over_18'])

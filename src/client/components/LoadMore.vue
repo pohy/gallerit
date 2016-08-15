@@ -15,25 +15,23 @@
     }
 </style>
 <script>
-    import {loadMore} from './actions';
+    import {mapActions, mapGetters} from 'vuex';
     import debounce from 'debounce';
 
     export default {
-        vuex: {
-            actions: {
-                loadMore
-            },
-            getters: {
-                loading: (state) => state.loading,
-                fail: (state) => state.fail
-            }
-        },
         created() {
             window.addEventListener('scroll', this.startFetching);
         },
+        computed: {
+            ...mapGetters(['loading', 'fail', 'hasImages'])
+        },
         methods: {
+            ...mapActions(['loadMore']),
             startFetching: debounce(function() {
-                if (document.querySelector('.load-more').offsetTop < window.scrollY + window.innerHeight) {
+                if (
+                        document.querySelector('.load-more').offsetTop - 1000 < window.scrollY + window.innerHeight
+                        && !this.loading && this.hasImages && !this.fail
+                ) {
                     this.loadMore();
                 }
             }, 250)

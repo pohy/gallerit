@@ -1,26 +1,6 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import createLogger from 'vuex/logger';
-
 import * as types from './mutationTypes';
-import sortOptions from './sortOptions';
 
-Vue.use(Vuex);
-
-const state = {
-    images: [],
-    loading: false,
-    fail: false,
-    positions: {},
-    form: {
-        subreddits: 'pics',
-        sorting: sortOptions[0].value,
-        nsfw: false,
-        sortOptions
-    }
-};
-
-const mutations = {
+export default {
     [types.LOAD_IMAGES_START](state) {
         state.images = [];
         state.loading = true;
@@ -79,12 +59,3 @@ function handleFetchedSubreddits(state, subreddits, append) {
         })
     }
 }
-
-export default new Vuex.Store({
-    state,
-    mutations,
-    strict: true,
-    plugins: [
-        createLogger()
-    ]
-})

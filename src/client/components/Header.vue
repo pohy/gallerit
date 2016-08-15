@@ -1,6 +1,6 @@
 <template>
-    <div class="container-fluid">
-        <div class="navbar navbar-light bg-faded">
+    <div class="container-fluid header">
+        <div class="navbar navbar-fixed-top navbar-light bg-faded">
             <a class="navbar-brand" href="#">gallerit</a>
             <form
                     class="form-inline pull-md-right"
@@ -44,23 +44,21 @@
         </div>
     </div>
 </template>
+<style>
+    .header {
+        margin-bottom: 56px;
+    }
+</style>
 <script>
-    import {loadImages, updateForm} from './actions';
+    import {mapActions, mapGetters} from 'vuex';
 
     export default {
-        vuex: {
-            actions: {
-                loadImages,
-                updateForm
-            },
-            getters: {
-                form: (state) => state.form
-            }
-        },
         created() {
             this.loadImages();
         },
+        computed: mapGetters(['form']),
         methods: {
+            ...mapActions(['loadImages', 'updateForm']),
             formChanged(event) {
                 this.updateForm(event);
                 if (event.target.name !== 'subreddits') {
