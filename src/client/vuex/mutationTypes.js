@@ -8,4 +8,4 @@ export const LOAD_MORE_FAIL = 'loadMore/fail';
 
 export const UPDATE_FORM = 'updateForm';
 
-export const APP_LOADED = 'appLoaded';
+export const TOGGLE_SLIDESHOW = 'toggleSlideshow';

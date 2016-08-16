@@ -1,11 +1,10 @@
 <template>
-    <div class="card image-card">
-        <h4 v-if="image.title">{{ image.title }}</h4>
-        <img v-if="image.type === 'image'" v-bind:src="image.url" v-bind:alt="image.title">
-        <video v-if="image.type === 'video'" loop="loop" autoplay="autoplay" muted="muted">
-            <source v-bind:src="image.url" type="video/mp4">
-        </video>
-    </div>
+    <router-link :to="`/image?url=${image.url}`">
+        <div class="card image-card">
+            <h4 v-if="image.title">{{ image.title }}</h4>
+            <media-component :type="image.type" :url="image.url" :title="image.title"/>
+        </div>
+    </router-link>
 </template>
 <style lang="scss">
     .image-card {
@@ -37,7 +36,12 @@
     }
 </style>
 <script>
+    import Media from './Media.vue';
+
     export default{
         props: ['image'],
+        components: {
+            mediaComponent: Media
+        }
     }
 </script>
