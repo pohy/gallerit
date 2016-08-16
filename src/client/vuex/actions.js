@@ -7,7 +7,7 @@ export default {
     loadImages,
     loadMore,
     updateForm,
-    appLoaded
+    toggleSlideshow
 };
 
 function loadImages({commit, state: {form: {subreddits, sorting, nsfw}}}) {
@@ -53,6 +53,6 @@ function updateForm({commit}, {target: {name, value, type, checked}}) {
     }
 }
 
-function appLoaded({commit}) {
-    commit(types.APP_LOADED);
+function toggleSlideshow({commit}) {
+    commit(types.TOGGLE_SLIDESHOW);
 }

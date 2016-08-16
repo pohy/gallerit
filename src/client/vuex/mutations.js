@@ -32,6 +32,9 @@ export default {
             sorting: sorting || form.sorting,
             nsfw: (nsfw && typeof nsfw === 'boolean' ? nsfw : nsfw === 'true') || form.nsfw
         };
+    },
+    [types.TOGGLE_SLIDESHOW](state) {
+        state.slideshow = !state.slideshow;
     }
 };
 

@@ -37,8 +37,10 @@
                     >
                     NSFW
                 </label>
-                <button class="btn btn-primary">Search</button>
-                <button disabled class="btn btn-success">Start slideshow</button>
+                <button class="btn btn-primary" type="submit">Search</button>
+                <button @click="toggleSlideshow" class="btn btn-success" type="button">
+                    {{ slideshow ? 'Stop' : 'Start' }} slideshow
+                </button>
             </form>
         </div>
     </div>
@@ -49,7 +51,7 @@
     }
 </style>
 <script>
-    import {mapActions, mapGetters} from 'vuex';
+    import {mapActions, mapGetters, mapState} from 'vuex';
     import sortOptions from './sortOptions';
 
     export default {
@@ -59,9 +61,14 @@
         data: () => ({
             sortOptions
         }),
-        computed: mapGetters(['form']),
+        computed: {
+            ...mapGetters(['form']),
+            ...mapState({
+                slideshow: (state) => state.slideshow
+            })
+        },
         methods: {
-            ...mapActions(['loadImages', 'updateForm']),
+            ...mapActions(['loadImages', 'updateForm', 'toggleSlideshow']),
             formChanged(event) {
                 this.updateForm(event);
                 const {subreddits, nsfw, sorting} = this.form;

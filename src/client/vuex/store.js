@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import createLogger from 'vuex/logger';
 
-import sortOptions from './../components/sortOptions';
 import defaultForm from './defaultForm';
 import actions from './actions';
 import mutations from './mutations';
@@ -15,7 +14,8 @@ const state = {
     loading: false,
     fail: false,
     positions: {},
-    form: defaultForm
+    form: defaultForm,
+    slideshow: true
 };
 
 export default new Vuex.Store({
