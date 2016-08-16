@@ -30,10 +30,10 @@
             },
             url: requiredString(),
             title: requiredString(),
-            height: requiredString(),
-            width: requiredString(),
-            maxHeight: requiredString(),
-            maxWidth: requiredString()
+            height: String,
+            width: String,
+            maxHeight: String,
+            maxWidth: String
         }
     };
 </script>
