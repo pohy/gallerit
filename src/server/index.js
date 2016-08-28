@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const reddit = require('./reddit');
 const util = require('./util');
+const postsStub = require('./posts-stub');
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
 });
-app.use(express.static(`${__dirname}/public`));
+app.use(express.static(`${__dirname}/static`));
 
 app.get('/', (req, res, next) => {
     const subreddits = (req.query.subreddits || '').split(/[,; ]/);
@@ -27,7 +28,7 @@ app.get('/', (req, res, next) => {
     }
     reddit
         .fetchSubredditsImages(subreddits, sorting, nsfw)
-        .then(posts => res.json(posts))
+        .then((posts) => res.json(posts))
         .catch(next);
 });
 
@@ -42,7 +43,7 @@ app.post('/more', (req, res, next) => {
     }
     reddit
         .fetchMoreImages(positions, sorting, nsfw)
-        .then(posts => res.json(posts))
+        .then((posts) => res.json(posts))
         .catch(next);
 });
 

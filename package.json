@@ -3,6 +3,7 @@
   "author": "David Pohan <0ronon0@gmail.com>",
   "private": true,
   "scripts": {
+    "start": "npm run dev",
     "dev": "./node_modules/.bin/webpack-dev-server --inline --hot",
     "build": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress --hide-modules"
   },
@@ -15,7 +16,8 @@
     "lodash": "^4.15.0",
     "promise": "^7.1.1",
     "request": "^2.74.0",
-    "vue": "^2.0.0-beta.5",
+    "screenfull": "^3.0.2",
+    "vue": "^2.0.0-rc.3",
     "vue-router": "^2.0.0-rc.3",
     "vuex": "^2.0.0-rc.5",
     "vuex-router-sync": "^3.0.0"

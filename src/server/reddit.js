@@ -61,38 +61,48 @@ function fetchSubredditPosts(subreddit, sorting, nsfw, after) {
                         'Authorization': `Bearer ${token.token}`,
                         'User-Agent': 'web:cz.pohy.gallerit:1.0.0 (by /u/pohy)'
                     }
-                }, (err, response, bodyRaw) => {
-                    if (err || response.statusCode > 201) {
-                        reject(err ? err : bodyRaw);
-                    }
-                    let body;
-                    try {
-                        body = JSON.parse(bodyRaw);
-                    } catch (err) {
-                        reject(err);
-                        return;
-                    }
-                    if (!body.data || !body.data.children) {
-                        reject(body);
-                        return;
-                    }
-                    const parserPromises = body.data.children
-                        .filter((post) => nsfw ? true : !post.data['over_18'])
-                        .map((post, i, posts) => parser.parseImages(post.data.url, post.data.title));
-                    Promise
-                        .all(parserPromises)
-                        .then((images) => ({
-                            images: util.flatten(
-                                images.filter(image => !!image)
-                            ),
-                            position: body.data.after,
-                            subreddit
-                        }))
-                        .then(resolve)
-                        .catch(reject);
-                })
+                }, (err, response, bodyRaw) =>
+                    parseBody(err, response, bodyRaw)
+                        .then((body) => {
+                            const parserPromises = body.data.children
+                                .filter((post) => nsfw ? true : !post.data['over_18'])
+                                .map((post, i, posts) => parser.parseImages(post.data.url, post.data.title));
+                            Promise
+                                .all(parserPromises)
+                                .then((images) => ({
+                                    images: util.flatten(
+                                        images.filter(image => !!image)
+                                    ),
+                                    position: body.data.after,
+                                    subreddit
+                                }))
+                                .then(resolve)
+                                .catch(reject);
+                        })
+                        .catch(reject)
+                )
             )
     );
+}
+
+function parseBody(err, response, bodyRaw) {
+    return new Promise((resolve, reject) => {
+        if (err || response.statusCode > 201) {
+            reject(err ? err : bodyRaw);
+        }
+        let body;
+        try {
+            body = JSON.parse(bodyRaw);
+        } catch (err) {
+            reject(err);
+            return;
+        }
+        if (!body.data || !body.data.children) {
+            reject(body);
+            return;
+        }
+        resolve(body);
+    });
 }
 
 function getAccessToken() {
