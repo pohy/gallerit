@@ -10,7 +10,7 @@
                     Previous
                 </router-link>
             </div>
-            <div class="col-md-10 image-full">
+            <div class="image-full" :class="{'col-md-10': !fullscreen, 'col-md-12': fullscreen, fullscreen}">
                 <media-component
                         v-if="nav.current"
                         :type="nav.current.type"
@@ -33,16 +33,19 @@
         </div>
     </div>
 </template>
-<style lang="scss">
-    .image {
-        text-align: center;
-        vertical-align: middle;
+<style>
+    .image-full.fullscreen {
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>
 <script>
     import {mapGetters, mapActions, mapState} from 'vuex';
     import Media from './Media.vue';
     import Spinner from './Spinner.vue';
+    import screenfull from 'screenfull';
 
     export default {
         name: 'Image',
@@ -52,6 +55,8 @@
             } else if (!this.nav.next) {
                 this.loadMore();
             }
+            // TODO; this should be called in a ready/attached lifecycle hook, although, they don't seem to work
+            setTimeout(this.updateImageSize, 500);
         },
         data: () => ({
             image: {},
@@ -60,26 +65,32 @@
                 next: ''
             },
             nextImageDelay: 3247,
-            interval: null
+            interval: null,
+            maxImageWidth: 0,
+            maxImageHeight: 0
         }),
         computed: {
-            ...mapState({
-                slideshow: (state) => state.slideshow
-            }),
+            ...mapState(['slideshow', 'fullscreen']),
             ...mapGetters({
                 nav: 'imageNavigation'
-            }),
-            maxImageHeight() {
-                return window.innerHeight - document.querySelector('.header').offsetTop;
-            },
-            maxImageWidth() {
-                return document.querySelector('.image-full').offsetWidth;
-            }
+            })
         },
         methods: {
             ...mapActions(['loadImages', 'loadMore', 'toggleSlideshow']),
             nextImage() {
                 this.$router.push({query: {url: this.nav.next.url}});
+            },
+            getMaxImageHeight() {
+                const headerEl = document.querySelector('.header');
+                return window.innerHeight - (headerEl ? headerEl.offsetTop : 0);
+            },
+            getMaxImageWidth() {
+                const imageFullEl = document.querySelector('.image-full');
+                return imageFullEl ? imageFullEl.offsetWidth : 0;
+            },
+            updateImageSize() {
+                this.$data.maxImageWidth = this.getMaxImageWidth();
+                this.$data.maxImageHeight = this.getMaxImageHeight();
             }
         },
         watch: {
@@ -97,6 +108,18 @@
                 }
                 if (!nav.current && nav.next) {
                     this.nextImage(/* instant */ true);
+                }
+            },
+            fullscreen(fullscreen) {
+                this.updateImageSize();
+                if (fullscreen) {
+                    const imageFullEl = document.querySelector('.image-full');
+                    if (screenfull.enabled) {
+                        screenfull.request(imageFullEl);
+                    }
+                    document.body.style.backgroundColor = 'black';
+                } else {
+                    document.body.style.backgroundColor = 'white';
                 }
             }
         },

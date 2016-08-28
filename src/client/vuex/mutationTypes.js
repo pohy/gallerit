@@ -9,3 +9,4 @@ export const LOAD_MORE_FAIL = 'loadMore/fail';
 export const UPDATE_FORM = 'updateForm';
 
 export const TOGGLE_SLIDESHOW = 'toggleSlideshow';
+export const TOGGLE_FULLSCREEN = 'toggleFullscreen';

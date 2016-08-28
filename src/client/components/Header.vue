@@ -41,6 +41,9 @@
                 <button @click="toggleSlideshow" class="btn btn-success" type="button">
                     {{ slideshow ? 'Stop' : 'Start' }} slideshow
                 </button>
+                <button @click="toggleFullscreen" class="btn btn-secondary" type="button">
+                    Fullscreen
+                </button>
             </form>
         </div>
     </div>
@@ -53,10 +56,14 @@
 <script>
     import {mapActions, mapGetters, mapState} from 'vuex';
     import sortOptions from './sortOptions';
+    import screenfull from 'screenfull';
 
     export default {
         created() {
             this.loadImages();
+            if (screenfull.enabled) {
+                document.addEventListener(screenfull.raw.fullscreenchange, () => this.toggleFullscreen(screenfull.isFullscreen));
+            }
         },
         data: () => ({
             sortOptions
@@ -68,7 +75,7 @@
             })
         },
         methods: {
-            ...mapActions(['loadImages', 'updateForm', 'toggleSlideshow']),
+            ...mapActions(['loadImages', 'updateForm', 'toggleSlideshow', 'toggleFullscreen']),
             formChanged(event) {
                 this.updateForm(event);
                 const {subreddits, nsfw, sorting} = this.form;

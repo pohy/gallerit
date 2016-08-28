@@ -7,7 +7,8 @@ export default {
     loadImages,
     loadMore,
     updateForm,
-    toggleSlideshow
+    toggleSlideshow,
+    toggleFullscreen
 };
 
 function loadImages({commit, state: {form: {subreddits, sorting, nsfw}}}) {
@@ -55,4 +56,8 @@ function updateForm({commit}, {target: {name, value, type, checked}}) {
 
 function toggleSlideshow({commit}, value) {
     commit(types.TOGGLE_SLIDESHOW, value);
+}
+
+function toggleFullscreen({commit}, value) {
+    commit(types.TOGGLE_FULLSCREEN, value);
 }

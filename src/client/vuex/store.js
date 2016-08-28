@@ -15,7 +15,8 @@ const state = {
     fail: false,
     positions: {},
     form: defaultForm,
-    slideshow: false
+    slideshow: false,
+    fullscreen: false
 };
 
 export default new Vuex.Store({

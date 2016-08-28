@@ -35,6 +35,9 @@ export default {
     },
     [types.TOGGLE_SLIDESHOW](state, value) {
         state.slideshow = typeof value === 'boolean' ? value : !state.slideshow;
+    },
+    [types.TOGGLE_FULLSCREEN](state, value) {
+        state.fullscreen = typeof value === 'boolean' ? value : !state.fullscreen;
     }
 };
 
