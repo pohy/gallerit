@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="media-content">
         <img
                 v-if="type === 'image'"
                 :src="url"
@@ -20,6 +20,16 @@
         </video>
     </div>
 </template>
+<style lang="scss">
+    .media-content {
+        display: flex;
+        justify-content: center;
+
+        img {
+            padding: 1em;
+        }
+    }
+</style>
 <script>
     const requiredString = () => ({type: String, required: true});
 

@@ -4,7 +4,7 @@
             <div class="col-md-1">
                 <router-link
                         v-if="nav.previous"
-                        class="btn btn-secondary"
+                        class="btn btn-secondary navigation"
                         :to="`/image?url=${nav.previous.url}`"
                 >
                     Previous
@@ -24,7 +24,7 @@
             <div class="col-md-1">
                 <router-link
                         v-if="nav.next"
-                        class="btn btn-secondary"
+                        class="btn btn-secondary navigation"
                         :to="`/image?url=${nav.next.url}`"
                 >
                     Next
@@ -39,6 +39,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .navigation {
+        margin-top: 1em;
     }
 </style>
 <script>
