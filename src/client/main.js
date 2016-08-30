@@ -13,7 +13,7 @@ import 'bootstrap/dist/js/bootstrap';
 Vue.config.debug = true;
 
 new Vue({
-  router,
-  store,
-...App
+    router,
+    store,
+    ...App
 }).$mount('#app');

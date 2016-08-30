@@ -3,13 +3,15 @@
   "author": "David Pohan <0ronon0@gmail.com>",
   "private": true,
   "scripts": {
-    "start": "npm run dev",
-    "dev": "./node_modules/.bin/webpack-dev-server --inline --hot",
+    "start": "npm run server",
+    "server": "node src/server",
+    "serve": "cross-env NODE_ENV=production npm run build && npm run server",
     "build": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress --hide-modules"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
     "bootstrap": "^4.0.0-alpha.3",
+    "compression": "^1.6.2",
     "debounce": "^1.0.0",
     "express": "^4.14.0",
     "ideal-image-slider": "github:gilbitron/Ideal-Image-Slider",
@@ -31,11 +33,14 @@
     "css-loader": "^0.23.1",
     "expose-loader": "^0.7.1",
     "file-loader": "^0.8.4",
+    "html-webpack-plugin": "^2.22.0",
     "node-sass": "^3.8.0",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
     "vue-loader": "^9.2.2",
     "webpack": "^2.1.0-beta.20",
-    "webpack-dev-server": "^2.1.0-beta.0"
+    "webpack-dev-middleware": "^1.6.1",
+    "webpack-dev-server": "^2.1.0-beta.0",
+    "webpack-hot-middleware": "^2.12.2"
   }
 }

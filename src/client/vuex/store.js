@@ -7,6 +7,8 @@ import actions from './actions';
 import mutations from './mutations';
 import getters from './getters';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 Vue.use(Vuex);
 
 const state = {
@@ -25,7 +27,9 @@ export default new Vuex.Store({
     actions,
     mutations,
     strict: true,
-    plugins: [
-        createLogger()
-    ]
+    plugins: isProduction
+        ? []
+        : [
+            createLogger()
+        ]
 })

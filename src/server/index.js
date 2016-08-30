@@ -1,50 +1,58 @@
+const path = require('path');
 const express = require('express');
+const compression = require('compression');
 const bodyParser = require('body-parser');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 
-const reddit = require('./reddit');
-const util = require('./util');
-const postsStub = require('./posts-stub');
+const api = require('./server');
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+const webpackConfig = require('./../../webpack.config.js');
+const webpackOptions = {
+    publicPath: webpackConfig.output.publicPath,
+    contentBase: 'src/client',
+    stats: {
+        colors: true,
+        hash: true,
+        timings: true,
+        chunks: false,
+        chunkModules: false,
+        modules: false
+    }
+};
+
+const address = '0.0.0.0';
+const defaultPort = 3000;
+const port = isProduction ? process.env.PORT || defaultPort : defaultPort;
 
 const app = express();
-
 app.use(bodyParser.json());
+app.use(compression());
 
-app.use((req, res, next) => {
-    // Enable CORS
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
-app.use(express.static(`${__dirname}/static`));
+app.use('/api', api);
 
-app.get('/', (req, res, next) => {
-    const subreddits = (req.query.subreddits || '').split(/[,; ]/);
-    const sorting = req.query.sorting || 'hot';
-    const nsfw = req.query.nsfw === 'true';
-    if (!subreddits.length) {
-        res.status(400).json({
-            message: '"subreddits" query parameter is mandatory'
-        });
-    }
-    reddit
-        .fetchSubredditsImages(subreddits, sorting, nsfw)
-        .then((posts) => res.json(posts))
-        .catch(next);
-});
+if (isProduction) {
+    app.use(express.static(path.join(__dirname, '../../dist')));
+    app.get('*', (req, res) =>
+        res.sendFile(path.join(__dirname, '../../dist/index.html'))
+    );
+} else {
+    const compiler = webpack(webpackConfig);
+    const webpackMiddleware = webpackDevMiddleware(compiler, webpackOptions);
 
-app.post('/more', (req, res, next) => {
-    const positions = req.body.positions;
-    const sorting = req.body.sorting || 'hot';
-    const nsfw = req.body.nsfw === 'true';
-    if (!positions) {
-        res.status(400).json({
-            message: '"positions" object is required'
-        });
-    }
-    reddit
-        .fetchMoreImages(positions, sorting, nsfw)
-        .then((posts) => res.json(posts))
-        .catch(next);
-});
+    app.use(webpackMiddleware);
+    app.use(webpackHotMiddleware(compiler));
+    app.get('*', (req, res) => {
+        res.write(webpackMiddleware.fileSystem.readFileSync(path.join(__dirname, '../../dist/index.html')));
+        res.end();
+    });
+}
 
-app.listen(3000, () => console.log('API listening on port 3000'));
+app.listen(port, address, (error) =>
+    error
+        ? console.error(error)
+        : console.log(`Listening on ${address}:${port}`)
+);

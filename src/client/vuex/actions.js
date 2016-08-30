@@ -1,6 +1,6 @@
 import * as types from './mutationTypes';
 
-const apiUrl = 'http://localhost:3000';
+const apiUrl = 'http://localhost:3000/api';
 
 // for some reason, exporting multiple consts exports an undefined
 export default {
