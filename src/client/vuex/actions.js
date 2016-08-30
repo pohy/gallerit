@@ -1,6 +1,8 @@
 import * as types from './mutationTypes';
 
-const apiUrl = `${location.protocol}//localhost:3000/api`;
+const isProduction = process.env.NODE_ENV === 'production';
+
+const apiUrl = `${location.protocol}//${isProduction ? 'localhost:3000' : location.host}/api`;
 
 // for some reason, exporting multiple consts exports an undefined
 export default {
