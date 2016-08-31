@@ -21,15 +21,13 @@ const state = {
     fullscreen: false
 };
 
+const plugins = isProduction ? [] : [createLogger()];
+
 export default new Vuex.Store({
+    strict: true,
     state,
     getters,
     actions,
     mutations,
-    strict: true,
-    plugins: isProduction
-        ? []
-        : [
-            createLogger()
-        ]
+    plugins
 })
