@@ -12,6 +12,7 @@
 <style>
     .load-more {
         text-align: center;
+        padding: 15px;
     }
 </style>
 <script>
@@ -30,9 +31,11 @@
         },
         methods: {
             ...mapActions(['loadMore']),
+            // using function to retain scope reference
             startFetching: debounce(function() {
+                const loadMoreEl = document.querySelector('.load-more');
                 if (
-                        document.querySelector('.load-more').offsetTop - 1000 < window.scrollY + window.innerHeight
+                        loadMoreEl && loadMoreEl.offsetTop - 1000 < window.scrollY + window.innerHeight
                         && !this.loading && this.hasImages && !this.fail
                 ) {
                     this.loadMore();

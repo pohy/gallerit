@@ -10,3 +10,5 @@ export const UPDATE_FORM = 'updateForm';
 
 export const TOGGLE_SLIDESHOW = 'toggleSlideshow';
 export const TOGGLE_FULLSCREEN = 'toggleFullscreen';
+
+export const UPDATE_SEARCH_SCROLL_POSITION = 'updateSearchScrollPosition';

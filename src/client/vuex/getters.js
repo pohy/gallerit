@@ -5,7 +5,6 @@ export default {
     fail: (state) => state.fail,
     imageNavigation: ({images, route: {query: {url}}}) => {
         if (!url) {
-            console.error('Url query parameter is undefined');
             return createNavigation();
         }
         const currentImageIndex = images.findIndex((image) => image.url === url);
