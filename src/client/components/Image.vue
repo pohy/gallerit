@@ -81,7 +81,7 @@
         methods: {
             ...mapActions(['loadImages', 'loadMore', 'toggleSlideshow']),
             nextImage() {
-                this.$router.push({query: {url: this.nav.next.url}});
+                this.$router.push({path: '/image', query: {url: this.nav.next.url}});
             },
             getMaxImageHeight() {
                 const headerEl = document.querySelector('.header');

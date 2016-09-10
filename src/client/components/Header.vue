@@ -79,7 +79,7 @@
             formChanged(event) {
                 this.updateForm(event);
                 const {subreddits, nsfw, sorting} = this.form;
-                this.$router.push('/', {query: {subreddits, nsfw, sorting}});
+                this.$router.push({path: '/', query: {subreddits, nsfw, sorting}});
                 if (event.target.name !== 'subreddits') {
                     this.loadImages();
                 }
