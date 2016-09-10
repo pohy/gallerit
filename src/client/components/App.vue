@@ -7,12 +7,10 @@
 </template>
 <script>
     import Header from './Header.vue';
-    import Analytics from './Analytics.vue';
 
     export default {
         components: {
-            headerComponent: Header,
-            Analytics
+            headerComponent: Header
         },
         data: () => ({
             isProduction: process.env.NODE_ENV === 'production'
