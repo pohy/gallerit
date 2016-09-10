@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const appConfig = require('./src/server/config');
 
 const config = {
     entry: [
@@ -61,10 +62,21 @@ const config = {
     ]
 };
 
+const htmlWebpackPluginConfig = {
+    template: path.join(__dirname, 'src/client/index.html'),
+    inject: 'body',
+    filename: 'index.html'
+};
+
 if (process.env.NODE_ENV === 'production') {
     config.devtool = '#source-map';
     // http://vue-loader.vuejs.org/en/workflow/production.html
     config.plugins = config.plugins.concat([
+        new HtmlWebpackPlugin(Object.assign({}, htmlWebpackPluginConfig, {
+            googleAnalytics: {
+                analyticsId: appConfig.analyticsId
+            }
+        })),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
@@ -82,6 +94,7 @@ if (process.env.NODE_ENV === 'production') {
     };
     config.plugins = config.plugins.concat([
         // new webpack.optimize.OccurenceOrderPlugin(),
+        new HtmlWebpackPlugin(htmlWebpackPluginConfig),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
