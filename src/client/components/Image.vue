@@ -1,16 +1,7 @@
 <template>
     <div class="container-fluid image">
         <div class="row">
-            <div class="col-md-1">
-                <router-link
-                        v-if="nav.previous"
-                        class="btn btn-secondary navigation"
-                        :to="`/image?url=${nav.previous.url}`"
-                >
-                    Previous
-                </router-link>
-            </div>
-            <div class="image-full" :class="{'col-md-10': !fullscreen, 'col-md-12': fullscreen, fullscreen}">
+            <div class="image-full col-md-12" :class="{fullscreen}">
                 <media-component
                         v-if="nav.current"
                         :type="nav.current.type"
@@ -21,13 +12,26 @@
                 />
                 <spinner v-else />
             </div>
-            <div class="col-md-1">
+            <div class="image-nav left">
+                <router-link
+                        v-if="nav.previous"
+                        class="button"
+                        :to="`/image?url=${nav.previous.url}`"
+                >
+                    <span>
+                        &lt;
+                    </span>
+                </router-link>
+            </div>
+            <div class="image-nav right">
                 <router-link
                         v-if="nav.next"
-                        class="btn btn-secondary navigation"
+                        class="button"
                         :to="`/image?url=${nav.next.url}`"
                 >
-                    Next
+                    <span>
+                        &gt;
+                    </span>
                 </router-link>
             </div>
         </div>
@@ -40,8 +44,38 @@
         justify-content: center;
         align-items: center;
     }
-    .navigation {
-        margin-top: 1em;
+    .image-nav {
+        position: fixed;
+        width: 150px;
+        height: 100%;
+
+        &:hover .button {
+            display: flex;
+        }
+
+        &.left {
+            left: 0;
+        }
+
+        &.right {
+            right: 0;
+        }
+
+        .button {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            font-size: 56px;
+            color: white;
+            text-decoration: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hide {
+            display: none;
+        }
     }
 </style>
 <script>
@@ -60,6 +94,7 @@
             }
             // TODO; this should be called in a ready/attached lifecycle hook, although, they don't seem to work
             setTimeout(this.updateImageSize, 500);
+            setTimeout(this.hideNavigation, 1500);
         },
         data: () => ({
             image: {},
@@ -94,6 +129,12 @@
             updateImageSize() {
                 this.$data.maxImageWidth = this.getMaxImageWidth();
                 this.$data.maxImageHeight = this.getMaxImageHeight();
+            },
+            hideNavigation() {
+                const buttonEls = document.querySelectorAll('.image-nav .button');
+                if (buttonEls.length) {
+                    buttonEls.forEach((el) => el.classList.add('hide'));
+                }
             }
         },
         watch: {
