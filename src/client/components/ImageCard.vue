@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="`/image?url=${image.url}`">
+    <router-link :to="{name: 'image', query: {url: image.url}}">
         <div class="card image-card">
             <h4 v-if="image.title">{{ image.title }}</h4>
             <media-component :type="image.type" :url="image.url" :title="image.title"/>

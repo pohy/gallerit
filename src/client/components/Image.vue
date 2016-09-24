@@ -16,7 +16,7 @@
                 <router-link
                         v-if="nav.previous"
                         class="button"
-                        :to="`/image?url=${nav.previous.url}`"
+                        :to="{name: 'image', query: {url: nav.previous.url}}"
                 >
                     <span>
                         &lt;
@@ -27,7 +27,7 @@
                 <router-link
                         v-if="nav.next"
                         class="button"
-                        :to="`/image?url=${nav.next.url}`"
+                        :to="{name: 'image', query: {url: nav.next.url}}"
                 >
                     <span>
                         &gt;
