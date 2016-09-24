@@ -1,4 +1,4 @@
-import sortOptions from '../components/sortOptions';
+import sortOptions from '../data/sortOptions';
 
 export default {
     subreddits: 'pics',

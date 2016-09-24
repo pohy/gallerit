@@ -70,7 +70,7 @@
 </style>
 <script>
     import {mapActions, mapGetters, mapState} from 'vuex';
-    import sortOptions from './sortOptions';
+    import sortOptions from '../data/sortOptions';
     import screenfull from 'screenfull';
     import debounce from 'debounce';
 
