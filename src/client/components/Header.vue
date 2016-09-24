@@ -1,7 +1,31 @@
 <template>
     <div class="container-fluid header">
         <div class="navbar navbar-fixed-top navbar-light bg-faded">
-            <router-link class="navbar-brand" :to="'/'">gallerit</router-link>
+            <router-link
+                    class="navbar-brand"
+                    :to="{name: 'home'}"
+            >
+                gallerit
+            </router-link>
+            <ul class="nav navbar-nav">
+                <router-link
+                        class="nav-item"
+                        :to="{name: 'home'}"
+                        active-class="active"
+                        tag="li"
+                        exact
+                >
+                    <a class="nav-link">Home</a>
+                </router-link>
+                <router-link
+                        class="nav-item"
+                        :to="{name: 'about'}"
+                        active-class="active"
+                        tag="li"
+                >
+                    <a class="nav-link">About</a>
+                </router-link>
+            </ul>
             <form
                     class="form-inline pull-md-right"
                     @submit.prevent="loadImages"
