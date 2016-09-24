@@ -76,4 +76,10 @@
         ```
     
 ## Libraries used
-- [vue.js](https://vuejs.org/)
+- [vue.js](https://github.com/vuejs/vue/tree/next)
+- [VueX](https://github.com/vuejs/vuex/tree/next)
+- [Vue router](https://github.com/vuejs/vue-router/tree/next)
+- [Bootstrap](https://github.com/twbs/bootstrap)
+- [Express](https://github.com/expressjs/express)
+- [Webpack](https://github.com/webpack/webpack)
+- [Babel](https://github.com/babel/babel)
