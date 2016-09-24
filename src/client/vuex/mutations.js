@@ -38,6 +38,12 @@ export default {
     },
     [types.TOGGLE_FULLSCREEN](state, value) {
         state.fullscreen = typeof value === 'boolean' ? value : !state.fullscreen;
+    },
+    [types.DISPLAY_NOTIFICATION](state, notification) {
+        state.notification = notification;
+    },
+    [types.HIDE_NOTIFICATION](state) {
+        state.notification = '';
     }
 };
 

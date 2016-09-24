@@ -1,3 +1,4 @@
+<!--TODO: refactor into smaller components-->
 <template>
     <div class="container-fluid image">
         <div class="row">
@@ -11,7 +12,9 @@
                         :maxWidth="`${maxImageWidth}px`"
                 />
                 <spinner v-else />
+                <notification-overlay/>
             </div>
+            <!--TODO: display navigation in fullscreen-->
             <div class="image-nav left">
                 <router-link
                         v-if="nav.previous"
@@ -34,7 +37,6 @@
                     </span>
                 </router-link>
             </div>
-            <info-overlay/>
         </div>
     </div>
 </template>
@@ -83,6 +85,7 @@
     import {mapGetters, mapActions, mapState} from 'vuex';
     import Media from './Media.vue';
     import Spinner from './Spinner.vue';
+    import NotificationOverlay from './NotificationOverlay.vue';
 
     import screenfull from 'screenfull';
     import hotkey from 'keymaster';
@@ -119,7 +122,7 @@
             })
         },
         methods: {
-            ...mapActions(['loadImages', 'loadMore', 'toggleSlideshow']),
+            ...mapActions(['loadImages', 'loadMore', 'toggleSlideshow', 'displayNotification']),
             nextImage() {
                 if (this.nav.next) {
                     this.$router.push({path: '/image', query: {url: this.nav.next.url}});
@@ -158,9 +161,11 @@
             slideshow(running) {
                 if (running) {
                     this.interval = setInterval(() => this.nextImage(), this.nextImageDelay);
+                    this.displayNotification('Playing');
                 } else {
                     clearInterval(this.interval);
                     this.interval = null;
+                    this.displayNotification('Paused');
                 }
             },
             nav(nav) {
@@ -173,20 +178,21 @@
             },
             fullscreen(fullscreen) {
                 if (screenfull.enabled) {
-                    this.updateImageSize();
+                    const imageFullEl = document.querySelector('.image-full');
+                    screenfull.toggle(imageFullEl);
+                    setTimeout(this.updateImageSize, 50);
                     if (fullscreen) {
                         document.body.style.backgroundColor = 'black';
                     } else {
                         document.body.style.backgroundColor = 'white';
                     }
-                    const imageFullEl = document.querySelector('.image-full');
-                    screenfull.toggle(imageFullEl);
                 }
             }
         },
         components: {
             mediaComponent: Media,
-            Spinner
+            Spinner,
+            NotificationOverlay
         }
     }
 </script>

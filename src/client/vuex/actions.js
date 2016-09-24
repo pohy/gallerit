@@ -10,7 +10,8 @@ export default {
     loadMore,
     updateForm,
     toggleSlideshow,
-    toggleFullscreen
+    toggleFullscreen,
+    displayNotification
 };
 
 function loadImages({commit, state: {form: {subreddits, sorting, nsfw}}}) {
@@ -58,8 +59,22 @@ function updateForm({commit}, {target: {name, value, type, checked}}) {
 
 function toggleSlideshow({commit}, value) {
     commit(types.TOGGLE_SLIDESHOW, value);
+
 }
 
 function toggleFullscreen({commit}, value) {
     commit(types.TOGGLE_FULLSCREEN, value);
+}
+
+// TODO: reconsider location of config
+const notificationDuration = 3000;
+let hideTimeout;
+function displayNotification({commit}, notification) {
+    commit(types.DISPLAY_NOTIFICATION, notification);
+    if (hideTimeout) {
+        clearTimeout(hideTimeout);
+    }
+    hideTimeout = setTimeout(() =>
+        commit(types.HIDE_NOTIFICATION)
+    , notificationDuration);
 }

@@ -18,7 +18,8 @@ const state = {
     positions: {},
     form: defaultForm,
     slideshow: false,
-    fullscreen: false
+    fullscreen: false,
+    notification: ''
 };
 
 const plugins = isProduction ? [] : [createLogger()];
