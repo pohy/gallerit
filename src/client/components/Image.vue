@@ -34,10 +34,11 @@
                     </span>
                 </router-link>
             </div>
+            <info-overlay/>
         </div>
     </div>
 </template>
-<style>
+<style lang="scss">
     .image-full.fullscreen {
         background-color: black;
         display: flex;
@@ -82,7 +83,9 @@
     import {mapGetters, mapActions, mapState} from 'vuex';
     import Media from './Media.vue';
     import Spinner from './Spinner.vue';
+
     import screenfull from 'screenfull';
+    import hotkey from 'keymaster';
 
     export default {
         name: 'Image',
@@ -95,6 +98,8 @@
             // TODO; this should be called in a ready/attached lifecycle hook, although, they don't seem to work
             setTimeout(this.updateImageSize, 500);
             setTimeout(this.hideNavigation, 1500);
+
+            this.bindHotkeys();
         },
         data: () => ({
             image: {},
@@ -116,7 +121,14 @@
         methods: {
             ...mapActions(['loadImages', 'loadMore', 'toggleSlideshow']),
             nextImage() {
-                this.$router.push({path: '/image', query: {url: this.nav.next.url}});
+                if (this.nav.next) {
+                    this.$router.push({path: '/image', query: {url: this.nav.next.url}});
+                }
+            },
+            previousImage() {
+                if (this.nav.previous) {
+                    this.$router.push({path: '/image', query: {url: this.nav.previous.url}});
+                }
             },
             getMaxImageHeight() {
                 const headerEl = document.querySelector('.header');
@@ -135,6 +147,11 @@
                 if (buttonEls.length) {
                     buttonEls.forEach((el) => el.classList.add('hide'));
                 }
+            },
+            bindHotkeys() {
+                // TODO: unbind when not in preview mode
+                hotkey('left', this.previousImage);
+                hotkey('right', this.nextImage);
             }
         },
         watch: {
@@ -155,15 +172,15 @@
                 }
             },
             fullscreen(fullscreen) {
-                this.updateImageSize();
-                if (fullscreen) {
-                    const imageFullEl = document.querySelector('.image-full');
-                    if (screenfull.enabled) {
-                        screenfull.request(imageFullEl);
+                if (screenfull.enabled) {
+                    this.updateImageSize();
+                    if (fullscreen) {
+                        document.body.style.backgroundColor = 'black';
+                    } else {
+                        document.body.style.backgroundColor = 'white';
                     }
-                    document.body.style.backgroundColor = 'black';
-                } else {
-                    document.body.style.backgroundColor = 'white';
+                    const imageFullEl = document.querySelector('.image-full');
+                    screenfull.toggle(imageFullEl);
                 }
             }
         },

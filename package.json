@@ -15,6 +15,7 @@
     "debounce": "^1.0.0",
     "express": "^4.14.0",
     "ideal-image-slider": "github:gilbitron/Ideal-Image-Slider",
+    "keymaster": "^1.6.2",
     "lodash": "^4.15.0",
     "promise": "^7.1.1",
     "request": "^2.74.0",

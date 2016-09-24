@@ -71,8 +71,10 @@
 <script>
     import {mapActions, mapGetters, mapState} from 'vuex';
     import sortOptions from '../data/sortOptions';
+
     import screenfull from 'screenfull';
     import debounce from 'debounce';
+    import hotkey from 'keymaster';
 
     export default {
         created() {
@@ -80,7 +82,8 @@
             if (screenfull.enabled) {
                 document.addEventListener(screenfull.raw.fullscreenchange, () => this.toggleFullscreen(screenfull.isFullscreen));
             }
-            window.addEventListener('scroll', this.updateScrollPosition)
+            window.addEventListener('scroll', this.updateScrollPosition);
+            this.bindHotkeys();
         },
         data: () => ({
             sortOptions,
@@ -89,7 +92,8 @@
         computed: {
             ...mapGetters(['form', 'imageNavigation']),
             ...mapState({
-                slideshow: (state) => state.slideshow
+                slideshow: (state) => state.slideshow,
+                route: (state) => state.route
             })
         },
         methods: {
@@ -107,7 +111,6 @@
                 this.toggleFullscreen(false);
                 const {subreddits, nsfw, sorting} = this.form;
                 this.$router.push({path: '/', query: {subreddits, nsfw, sorting}}, () => console.log('done'));
-                console.log(this.scrollPosition)
                 //TODO: handle in a better way
                 setTimeout(() => window.scrollTo(0, this.scrollPosition), 50);
             },
@@ -115,7 +118,17 @@
                 if (!this.imageNavigation.current) {
                     this.scrollPosition = window.scrollY;
                 }
-            })
+            }),
+            bindHotkeys() {
+                hotkey('space', () => {
+                    if (this.route.name === 'image') {
+                        this.toggleSlideshow();
+                        return false;
+                    }
+                });
+                hotkey('f', this.toggleFullscreen);
+                hotkey('esc', this.closePreview);
+            }
         }
     }
 </script>
