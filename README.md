@@ -19,10 +19,10 @@
          * Parses images and returns an array of direct urls of images
          * See src/server/parser/default.js for reference implementation
          *
-         * @param (string) url - Url of the site
+         * @param (object) redditPost - JSON with the reddit post
          * @returns (Promise) An array of image urls, rejects, if the url cannot be parsed
          */
-         function parseImages(url) {...}
+         function parseImages(redditPost) {...}
         ```
         
     - Image objects
@@ -33,6 +33,10 @@
              * Required
             */
             url: 'https://i.imgur.com/1Cwu579c.jpg',
+            /**
+             * Optional
+            */
+            thumbnail: 'https://galler.it/api/thumbnail?url=https://i.imgur.com/1Cwu579c.jpg',
             /**
              * Required
              * Available types: image/video

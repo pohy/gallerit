@@ -66,7 +66,7 @@ function fetchSubredditPosts(subreddit, sorting, nsfw, after) {
                         .then((body) => {
                             const parserPromises = body.data.children
                                 .filter((post) => nsfw ? true : !post.data['over_18'])
-                                .map((post, i, posts) => parser.parseImages(post.data.url, post.data.title));
+                                .map((post, i, posts) => parser.parseImages(post));
                             Promise
                                 .all(parserPromises)
                                 .then((images) => ({

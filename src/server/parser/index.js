@@ -8,7 +8,7 @@ const parsers = [
     require('./default')
 ];
 
-function parseImages(url, defaultTitle) {
+function parseImages(post) {
     return new Promise((resolve) => {
         let parserPointer = -1;
         next();
@@ -20,7 +20,7 @@ function parseImages(url, defaultTitle) {
                 return;
             }
             parsers[parserPointer]
-                .parseImages(url, defaultTitle)
+                .parseImages(post)
                 .then(resolve)
                 .catch(next);
         }

@@ -1,5 +1,8 @@
+// TODO: make JSON
+
 module.exports = {
     clientId: '',
     clientSecret: '',
-    analyticsId: ''
+    analyticsId: '',
+    host: ''
 };
