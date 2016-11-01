@@ -14,7 +14,7 @@
 - __Parser API__
     - 
 
-        ```
+        ```javascript
         /**
          * Parses images and returns an array of direct urls of images
          * See src/server/parser/default.js for reference implementation
@@ -27,7 +27,7 @@
         
     - Image objects
     
-        ```
+        ```javascript
         {
             /**
              * Required
