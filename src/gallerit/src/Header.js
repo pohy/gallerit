@@ -6,7 +6,7 @@ import {NavLink as NavLinkRouter, Link} from 'react-router-dom';
 import './Header.css';
 import Search from './search/Search';
 
-export default class Header extends Component {
+class Header extends Component {
     render() {
         return (
             <Container className="Header" fluid>
@@ -34,3 +34,5 @@ export default class Header extends Component {
         )
     }
 }
+
+export default Header;
