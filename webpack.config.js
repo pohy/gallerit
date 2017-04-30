@@ -1,5 +1,6 @@
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const clientRoot = `${__dirname}/src/gallerit`;
@@ -11,7 +12,8 @@ module.exports = {
     ],
     output: {
         path: `${__dirname}/dist`,
-        filename: '[name].js'
+        filename: '[name].js',
+        publicPath: '/'
     },
     devtool: isProduction ? '#cheap-source-map' : '#eval-source-map',
     module: {
@@ -39,10 +41,21 @@ module.exports = {
             ]
         }]
     },
-    plugins: [
+    plugins: getPlugins()
+};
+
+function getPlugins() {
+    const base = [
         new HtmlWebpackPlugin({
             template: `${clientRoot}/public/index.html`
-        })
-    ]
-};
+        }),
+        new webpack.optimize.OccurrenceOrderPlugin()
+    ];
+    const dev = [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoEmitOnErrorsPlugin()
+    ];
+    const production = [];
+    return isProduction ? base.concat(production) : base.concat(dev);
+}
 

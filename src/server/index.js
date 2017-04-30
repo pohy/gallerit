@@ -27,6 +27,7 @@ const webpackOptions = {
 const address = '0.0.0.0';
 const defaultPort = 3000;
 const port = isProduction ? process.env.PORT || defaultPort : defaultPort;
+const indexLocation = `${__dirname}/../../dist/index.html`;
 
 const app = express();
 app.use(bodyParser.json());
@@ -37,7 +38,7 @@ app.use('/api', api);
 if (isProduction) {
     app.use(express.static(path.join(__dirname, '../../dist')));
     app.get('*', (req, res) =>
-        res.sendFile(path.join(__dirname, '../../dist/index.html'))
+        res.sendFile(indexLocation)
     );
 } else {
     const compiler = webpack(webpackConfig);
@@ -46,7 +47,7 @@ if (isProduction) {
     app.use(webpackMiddleware);
     app.use(webpackHotMiddleware(compiler));
     app.get('*', (req, res) => {
-        res.write(webpackMiddleware.fileSystem.readFileSync(path.join(__dirname, '../../dist/index.html')));
+        res.write(webpackMiddleware.fileSystem.readFileSync(indexLocation));
         res.end();
     });
 }
