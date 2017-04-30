@@ -1,7 +1,7 @@
 import {extendObservable} from 'mobx';
 import {SORT_OPTIONS} from './Search';
 
-class SearchObservable {
+class SearchStore {
     constructor() {
         extendObservable(this, {
             nsfw: false,
@@ -18,4 +18,4 @@ class SearchObservable {
     }
 }
 
-export default SearchObservable;
+export default SearchStore;

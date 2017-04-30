@@ -3,11 +3,11 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import {Provider, observer} from 'mobx-react';
 import App from './App';
 
-const Routes = ({observables}) => {
+const Routes = ({stores}) => {
     return (
-        <Provider {...observables}>
+        <Provider {...stores}>
             <BrowserRouter>
-                <Route path="/" component={App}/>
+                <Route path={['/', '/r/:subreddits']} component={App}/>
             </BrowserRouter>
         </Provider>
     );
