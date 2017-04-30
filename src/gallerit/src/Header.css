@@ -1,0 +1,13 @@
+.Header {
+    margin-bottom: 56px;
+}
+
+.Header .navbar-collapse {
+    width: initial;
+    flex-grow: 1;
+}
+
+.Header .search-form {
+    color: white;
+}
+
