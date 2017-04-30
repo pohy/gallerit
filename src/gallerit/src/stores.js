@@ -1,7 +1,9 @@
-import Search from './search/SearchStore';
+import {RouterStore} from 'mobx-react-router';
+import SearchStore from './search/SearchStore';
 
 const stores = {
-    search: new Search()
+    search: new SearchStore(),
+    router: new RouterStore()
 };
 
 export default stores;

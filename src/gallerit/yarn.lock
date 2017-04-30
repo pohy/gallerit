@@ -2358,7 +2358,7 @@ he@1.1.x:
   version "1.1.1"
   resolved he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd
 
-history@^4.5.1, history@^4.6.0:
+history@^4.5.1, history@^4.6.0, history@^4.6.1:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/history/-/history-4.6.1.tgz#911cf8eb65728555a94f2b12780a0c531a14d2fd"
   dependencies:
@@ -3415,6 +3415,10 @@ minimist@^1.1.1, minimist@^1.2.0:
   resolved mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903
   dependencies:
     minimist "0.0.8"
+
+mobx-react-router@^4.0.1:
+  version "4.0.1"
+  resolved mobx-react-router-4.0.1.tgz#72f67b5c637d187595415500e8afa5cddb2231ab
 
 mobx-react@^4.1.8:
   version "4.1.8"

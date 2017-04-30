@@ -6,6 +6,6 @@ import Routes from './Routes';
 import stores from './stores';
 
 ReactDOM.render(
-    <Routes observables={stores}/>,
+    <Routes stores={stores}/>,
     document.getElementById('root')
 );
