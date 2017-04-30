@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {Provider, observer} from 'mobx-react';
 import {syncHistoryWithStore} from 'mobx-react-router';
 import {createBrowserHistory} from 'history'
@@ -11,9 +11,10 @@ const Routes = ({stores}) => {
     return (
         <Provider {...stores}>
             <BrowserRouter history={history}>
-                <Route path="/" component={App}>
-                    <Route path="r/:subreddits" component={App}/>
-                </Route>
+                <Switch>
+                    <Route path="/r/:subreddits" component={App}/>
+                    <Route path="/" component={App}/>
+                </Switch>
             </BrowserRouter>
         </Provider>
     );
