@@ -1,106 +1,48 @@
-const path = require('path');
-const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const appConfig = require('./src/server/config');
 
-const config = {
-    entry: [
-        path.join(__dirname, 'src/client/main.js')
+const isProduction = process.env.NODE_ENV === 'production';
+const clientRoot = `${__dirname}/src/gallerit`;
+
+module.exports = {
+    entry: isProduction ? `${clientRoot}/src/index.js` : [
+        'webpack-hot-middleware/client',
+        `${clientRoot}/src/index.js`
     ],
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/',
+        path: `${__dirname}/dist`,
         filename: '[name].js'
     },
-    resolveLoader: {
-        root: path.join(__dirname, 'node_modules')
-    },
-    vue: {
-        loaders: {
-            'scss': 'vue-style!css!sass'
-        }
-    },
+    devtool: isProduction ? '#cheap-source-map' : '#eval-source-map',
     module: {
-        loaders: [
-            {
-                test: /\.vue$/,
-                loader: 'vue'
-            },
-            {
-                test: /\.js$/,
-                loader: 'babel',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.(png|jpg|gif|svg)$/,
-                loader: 'file',
-                query: {
-                    name: '[name].[ext]?[hash]'
-                }
-            },
-            {
-                test: /\.css$/,
-                loader: 'style!css'
-            },
-            {
-                test: /\.(scss|sass)$/,
-                loader: 'style!css!sass'
+        loaders: [{
+            test: /\.js$/,
+            loader: 'babel-loader',
+            exclude: /node_modules/,
+            query: {
+                presets: ['es2015', 'react', 'stage-0']
             }
-        ]
+        }, {
+            test: /\.css$/,
+            use: [
+                'style-loader',
+                'css-loader',
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        ident: 'postcss',
+                        plugins: () => [
+                            autoprefixer()
+                        ]
+                    }
+                }
+            ]
+        }]
     },
-    devtool: '#eval-source-map',
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'src/client/index.html'),
-            inject: 'body',
-            filename: 'index.html'
-        }),
-        new webpack.ProvidePlugin({
-            jQuery: 'jquery',
-            'window.Tether': 'tether'
+            template: `${clientRoot}/public/index.html`
         })
     ]
 };
 
-const htmlWebpackPluginConfig = {
-    template: path.join(__dirname, 'src/client/index.html'),
-    inject: 'body',
-    filename: 'index.html'
-};
-
-if (process.env.NODE_ENV === 'production') {
-    config.devtool = '#source-map';
-    // http://vue-loader.vuejs.org/en/workflow/production.html
-    config.plugins = config.plugins.concat([
-        new HtmlWebpackPlugin(Object.assign({}, htmlWebpackPluginConfig, {
-            googleAnalytics: {
-                analyticsId: appConfig.analyticsId
-            }
-        })),
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production')
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        })
-    ]);
-} else {
-    config.entry = ['webpack-hot-middleware/client?reload=true'].concat(config.entry);
-    config.devServer = {
-        historyApiFallback: true,
-        noInfo: true
-    };
-    config.plugins = config.plugins.concat([
-        // new webpack.optimize.OccurenceOrderPlugin(),
-        new HtmlWebpackPlugin(htmlWebpackPluginConfig),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('development')
-        }),
-    ]);
-}
-
-module.exports = config;
