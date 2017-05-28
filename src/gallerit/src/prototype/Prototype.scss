@@ -67,6 +67,9 @@ body {
     margin: 0 4px;
     border-bottom: 2px solid white;
     flex-grow: 1;
+    &:focus {
+      color: white;
+    }
   }
   .search-options {
     display: flex;
