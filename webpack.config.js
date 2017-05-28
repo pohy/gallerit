@@ -6,10 +6,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 const clientRoot = `${__dirname}/src/gallerit`;
 
 module.exports = {
-    entry: isProduction ? `${clientRoot}/src/index.js` : [
-        'webpack-hot-middleware/client',
-        `${clientRoot}/src/index.js`
-    ],
+    entry: getEntry(),
     output: {
         path: `${__dirname}/dist`,
         filename: '[name].js',
@@ -18,14 +15,17 @@ module.exports = {
     devtool: isProduction ? '#cheap-source-map' : '#eval-source-map',
     module: {
         loaders: [{
-            test: /\.js$/,
-            loader: 'babel-loader',
+            test: /\.jsx?$/,
             exclude: /node_modules/,
-            query: {
-                presets: ['es2015', 'react', 'stage-0']
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['es2015', 'react', 'stage-0']
+                    // plugins: ['mobx-deep-action']
+                }
             }
         }, {
-            test: /\.css$/,
+            test: /\.(scss|sass|css)$/,
             use: [
                 'style-loader',
                 'css-loader',
@@ -37,12 +37,24 @@ module.exports = {
                             autoprefixer()
                         ]
                     }
-                }
+                },
+                'sass-loader'
             ]
         }]
     },
     plugins: getPlugins()
 };
+
+function getEntry() {
+    const indexLocation = `${clientRoot}/src/index.js`;
+    const base = ['babel-polyfill'];
+    const production = [indexLocation];
+    const dev = [
+        'webpack-hot-middleware/client',
+        indexLocation
+    ];
+    return isProduction ? base.concat(production) : base.concat(dev);
+}
 
 function getPlugins() {
     const base = [
