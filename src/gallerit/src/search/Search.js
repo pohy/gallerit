@@ -14,10 +14,22 @@ class Search extends Component {
         this.props.search.changed(name, _value);
     };
 
+    onFormSubmit = (event) => {
+        const {router, search: {subreddits, sorting, nsfw}, images} = this.props;
+        router.push(`/r/${subreddits}`);
+        images.queryImages(subreddits, sorting, nsfw);
+        event.preventDefault();
+    };
+
     render() {
         const {search: {nsfw, sorting, subreddits}} = this.props;
         return (
-            <Form inline className="search-form" onChange={this.onFormChange}>
+            <Form
+                inline
+                className="search-form"
+                onChange={this.onFormChange}
+                onSubmit={this.onFormSubmit}
+            >
                 <Label check>
                     <Input type="checkbox" name="nsfw" checked={nsfw}/>
                     {' '}
@@ -35,10 +47,10 @@ class Search extends Component {
                     type="text"
                     value={subreddits}
                     autoFocus
-                    placeholder="gifs, pics, gonewild..."
+                    placeholder="gif, pics, gonewild..."
                     name="subreddits"
                 />
-                <Button color="primary" type="button">
+                <Button color="primary">
                     Search
                 </Button>
             </Form>
@@ -47,6 +59,6 @@ class Search extends Component {
 }
 
 export {SORT_OPTIONS};
-export default inject('search')(
+export default inject('search', 'images', 'router')(
     observer(Search)
 );

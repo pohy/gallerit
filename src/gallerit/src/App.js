@@ -12,9 +12,9 @@ class App extends Component {
         }
     }
     render() {
+        console.log(this.props.children)
         return (
             <div className="App">
-                <Header/>
                 {this.props.children}
             </div>
         );

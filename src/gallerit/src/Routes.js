@@ -2,8 +2,9 @@ import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {Provider, observer} from 'mobx-react';
 import {syncHistoryWithStore} from 'mobx-react-router';
-import {createBrowserHistory} from 'history'
-import App from './App';
+import {createBrowserHistory} from 'history';
+import Header from './Header';
+import Images from './images/Images';
 
 const Routes = ({stores}) => {
     const browserHistory = createBrowserHistory();
@@ -11,10 +12,10 @@ const Routes = ({stores}) => {
     return (
         <Provider {...stores}>
             <BrowserRouter history={history}>
-                <Switch>
-                    <Route path="/r/:subreddits" component={App}/>
-                    <Route path="/" component={App}/>
-                </Switch>
+                <div>
+                    <Header/>
+                    <Route path="/r/:subreddits/(:sorting)?" component={Images}/>
+                </div>
             </BrowserRouter>
         </Provider>
     );
