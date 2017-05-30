@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
-const clientRoot = `${__dirname}/src/prototype`;
+const clientRoot = `${__dirname}/src/client`;
 
 module.exports = {
     entry: getEntry(),
