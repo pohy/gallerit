@@ -16,6 +16,7 @@
     "history": "^4.6.1",
     "ideal-image-slider": "github:gilbitron/Ideal-Image-Slider",
     "keymaster": "^1.6.2",
+    "normalize.css": "^7.0.0",
     "promise": "^7.1.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",

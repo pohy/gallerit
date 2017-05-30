@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
-const clientRoot = `${__dirname}/src/gallerit`;
+const clientRoot = `${__dirname}/src/prototype`;
 
 module.exports = {
     entry: getEntry(),
@@ -46,7 +46,7 @@ module.exports = {
 };
 
 function getEntry() {
-    const indexLocation = `${clientRoot}/src/index.js`;
+    const indexLocation = `${clientRoot}/index.js`;
     const base = ['babel-polyfill'];
     const production = [indexLocation];
     const dev = [

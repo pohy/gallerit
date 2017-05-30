@@ -13,7 +13,7 @@ app.use((req, res, next) => {
 app.use(express.static(`${__dirname}/static`));
 
 app.get('/', (req, res, next) => {
-    const subreddits = (req.query.subreddits || '').split(/[,; ]/);
+    const subreddits = (req.query.subreddits || '').replace(/[;,\s]+/g, ',').split(',');
     const sorting = req.query.sorting || 'hot';
     const nsfw = req.query.nsfw === 'true';
     if (!subreddits.length) {
