@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import Prototype from './Prototype.jsx';
+import './index.scss';
+import App from './App.jsx';
 
 ReactDOM.render(
-    <Prototype/>,
+    <App/>,
     document.getElementById('root')
 );

@@ -1,0 +1,24 @@
+@import "variables";
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none !important;
+  font-family: "Georgia", serif !important;
+  color: white;
+}
+
+html, body, #root, #root > div, .Prototype {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background-color: $background-color;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
