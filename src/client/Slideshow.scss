@@ -1,0 +1,60 @@
+@import "variables";
+
+.Slideshow {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .image {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  .nav {
+    position: fixed;
+    height: 75%;
+    width: 72px;
+    background-color: #3a3a3a;
+    border: 1px solid white;
+    font-size: 72px;
+    color: white;
+    cursor: pointer;
+    transition: .1s;
+    opacity: 0;
+    &:hover {
+      opacity: 0.75;
+    }
+    &:active {
+      border-color: $active-color;
+      color: $active-color;
+    }
+    &.previous, &.next {
+      &:before {
+        width: 100%;
+      }
+    }
+    &.previous {
+      left: 0;
+      border-left: none;
+      &:before {
+        content: '<';
+      }
+    }
+    &.next {
+      right: 0;
+      border-right: none;
+      &:before {
+        content: '>';
+      }
+    }
+  }
+}
