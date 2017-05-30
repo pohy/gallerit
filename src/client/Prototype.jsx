@@ -18,7 +18,7 @@ class Prototype extends Component {
         options: {
             [Prototype.SEARCH_OPTIONS.NSFW]: false,
             [Prototype.SEARCH_OPTIONS.SORTING]: 'hot',
-            [Prototype.SEARCH_OPTIONS.SUBREDDITS]: 'gif',
+            [Prototype.SEARCH_OPTIONS.SUBREDDITS]: 'pics',
         },
         subredditPositions: {}
     };
@@ -33,7 +33,6 @@ class Prototype extends Component {
         const {options, subredditPositions} = this.state;
         try {
             const {images, positions} = await fetchPosts(options, Prototype.SEARCH_OPTIONS);
-            console.log(images, positions)
             this.setState({
                 failed: false,
                 images,
@@ -84,7 +83,7 @@ class Prototype extends Component {
         const {nsfw, sorting, subreddits} = this.state.options;
         const optionsCss = `search-options ${showSearchOptions ? '' : 'hidden'}`;
         const formCss = `search-bar ${showSearchOptions ? 'options' : ''}`;
-        console.log(images, imageIndex)
+        const moreIconCss = `icon ${showSearchOptions ? 'less' : 'more'}-vertical`;
 
         return (
             <div className="Prototype">
@@ -96,7 +95,7 @@ class Prototype extends Component {
                             id="search-options-toggle"
                             onClick={this.toggleOptions}
                         >
-                            <div className="more-vertical icon"/>
+                            <div className={moreIconCss}/>
                         </button>
                         <input
                             className="subreddits"

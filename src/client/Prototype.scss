@@ -4,6 +4,9 @@ $background-color: #3a3a5a;
 .more-vertical.icon:before {
   content: 'More';
 }
+.less-vertical.icon:before {
+  content: 'Less';
+}
 
 .search.icon:before {
   content: 'Search';
@@ -42,6 +45,7 @@ body {
   &, .search-options, .search-basic {
     display: flex;
     flex-grow: 1;
+    box-sizing: border-box;
     width: 100%;
   }
   .icon-button, .subreddits {
@@ -50,7 +54,6 @@ body {
     }
     border: 1px solid white;
     background: none;
-    height: 36px;
     padding: 4px;
     font-size: 16px;
   }
@@ -58,6 +61,7 @@ body {
     min-width: 54px;
     cursor: pointer;
     transition: .2s;
+    height: 36px;
     &:hover {
       border-color: $active-color;
     }
@@ -67,6 +71,7 @@ body {
     margin: 0 4px;
     border-bottom: 2px solid white;
     flex-grow: 1;
+    transition: .2s;
     &:focus {
       color: white;
     }
