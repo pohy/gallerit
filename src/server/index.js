@@ -9,6 +9,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const api = require('./server');
 
 const isProduction = process.env.NODE_ENV === 'production';
+console.log('production', isProduction)
 
 const webpackConfig = require('./../../webpack.config.js');
 const webpackOptions = {

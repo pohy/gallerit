@@ -5,7 +5,7 @@
   "scripts": {
     "start": "npm run server",
     "server": "node src/server",
-    "serve": "cross-env NODE_ENV=production npm run build && npm run server",
+    "serve": "npm run build && cross-env NODE_ENV=production npm run server",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
