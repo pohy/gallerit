@@ -67,7 +67,14 @@ function getPlugins() {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin()
     ];
-    const production = [];
+	const production = [
+		new webpack.DefinePlugin({
+			'process.env': {
+				NODE_ENV: JSON.stringify('production')
+			}
+		}),
+		new webpack.optimize.UglifyJsPlugin()
+	];
     return isProduction ? base.concat(production) : base.concat(dev);
 }
 
